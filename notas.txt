@@ -1,0 +1,35 @@
+LEVANTAR BACK
+
+1) Ejecutar desde terminal de Intellij
+mvn clean package -DskipTests
+
+2) Ejecutar en bash desde C:\Users\Juan\SimuladorFutbol
+java -jar simuladorfutbol/target/simuladorfutbol-0.0.1-SNAPSHOT.jar --spring.config.location=file:///C:/Users/Juan/SimuladorFutbol/config/
+
+Si al ejecutar el mvn clean package falla porque el .jar viejo está en uso, primero matá el proceso en bash de Intellij:
+
+LISTAR PROCESOS
+tasklist | findstr java
+MATAR UN PROCESO ESPECÍFICO
+taskkill //F //PID 37076
+MATAR TODOS LOS PROCESOS
+taskkill //F //IM java.exe
+
+EQUIPOS CON JUGADORES
+- Selección Argentina 1000
+- River (ARG) 2000
+- Boca (ARG) 2001
+- Independiente (ARG) 2007
+- Racing (ARG) 2002
+- San Lorenzo (ARG) 2016
+- Vélez (ARG) 2006
+- Estudiantes (ARG) 2004
+- Newell's (ARG) 2008
+- Rosario Central (ARG) 2011
+- Huracán (ARG) 2014
+- Inter Miami (USA) 2608
+- Real Madrid (ESP) 2121
+- Barcelona (ESP) 2109
+- Chelsea (ING) 2092
+- PSG (FRA) 2126
+- PES United (GEN) 2634

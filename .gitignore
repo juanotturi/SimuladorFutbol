@@ -1,0 +1,16 @@
+# Java (Spring Boot)
+target/
+*.class
+*.jar
+*.war
+*.iml
+.idea/
+
+# Node/Angular
+node_modules/
+dist/
+.env
+
+# General
+.DS_Store
+*.swp
