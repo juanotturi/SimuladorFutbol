@@ -1,0 +1,75 @@
+<div class="filters glass-container">
+  <div class="tabs">
+    <button [class.active]="selectedTab === 'SELECCIONES'" (click)="selectedTab = 'SELECCIONES'">
+      Selecciones
+    </button>
+    <button [class.active]="selectedTab === 'CLUBES'" (click)="selectedTab = 'CLUBES'">
+      Clubes
+    </button>
+  </div>
+  <div *ngIf="selectedTab">
+    <div class="filters">
+      <label *ngIf="selectedTab === 'SELECCIONES'">
+        Confederación:
+        <select [(ngModel)]="selectedConfederation">
+          <option value="">Todas</option>
+          <option *ngFor="let conf of uniqueConfederations" [value]="conf">{{ conf }}</option>
+        </select>
+      </label>
+
+      <label *ngIf="selectedTab === 'CLUBES'">
+        Liga:
+        <select [(ngModel)]="selectedLeague">
+          <option value="">Todas</option>
+          <option *ngFor="let league of uniqueLeagues" [value]="league">{{ league }}</option>
+        </select>
+      </label>
+
+      <label>
+        Buscar por nombre:
+        <input type="text" [(ngModel)]="searchName" placeholder="Ingresá el nombre">
+      </label>
+
+      <label>
+        Ordenar por:
+        <select [(ngModel)]="sortField">
+          <option value="name">Nombre</option>
+          <option value="score">Score</option>
+        </select>
+      </label>
+
+      <label>
+        Dirección:
+        <select [(ngModel)]="sortDirection">
+          <option value="asc">Ascendente</option>
+          <option value="desc">Descendente</option>
+        </select>
+      </label>
+    </div>
+  </div>
+  <div *ngIf="selectedTab && !isLoading">
+    <table>
+      <thead>
+        <tr>
+          <th *ngIf="selectedTab === 'SELECCIONES'">Bandera</th>
+          <th *ngIf="selectedTab === 'CLUBES'">Escudo</th>
+          <th>Nombre</th>
+          <th *ngIf="selectedTab === 'SELECCIONES'">Confederación</th>
+          <th *ngIf="selectedTab === 'CLUBES'">Liga</th>
+          <th>Score</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let team of filteredTeams">
+          <td>
+            <img *ngIf="team.image" [src]="assetsBaseUrl + '/' + team.image" [alt]="team.name" class="flag-icon" />
+          </td>
+          <td>{{ team.name }} ({{ team.code }})</td>
+          <td *ngIf="selectedTab === 'SELECCIONES'">{{ team.confederation }}</td>
+          <td *ngIf="selectedTab === 'CLUBES'">{{ team.league }}</td>
+          <td>{{ team.score }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

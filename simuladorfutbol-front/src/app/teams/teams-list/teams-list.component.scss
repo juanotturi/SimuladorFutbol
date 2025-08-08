@@ -1,0 +1,51 @@
+.tabs button {
+  margin-right: 8px;
+  padding: 8px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background-color: rgba(0, 0, 0, 0.4);
+  color: white;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.tabs button:hover {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.tabs button.active {
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #111;
+  font-weight: bold;
+  border: 1px solid #ccc;
+}
+
+.filters {
+  margin-top: 16px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+}
+
+table th,
+table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+table th {
+  background-color: #f0f0f0;
+}
+
+.flag-icon {
+  height: 32px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+}
