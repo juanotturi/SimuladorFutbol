@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
@@ -6,6 +6,7 @@ import { Team } from '../../models/team.model';
 import { MatchResult } from '../../models/match-result.model';
 import { count, forkJoin, of } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { Player } from '../../models/player.model';
 
 @Component({
   selector: 'app-play-match',
@@ -15,6 +16,7 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./play-match.component.scss']
 })
 export class PlayMatchComponent implements OnInit {
+  @ViewChild('scrollPanel') scrollPanel?: ElementRef<HTMLDivElement>;
   apiBaseUrl = environment.apiBaseUrl;
   assetsBaseUrl = environment.assetsBaseUrl;
   teams: Team[] = [];
@@ -40,6 +42,8 @@ export class PlayMatchComponent implements OnInit {
   missedPenaltiesB: { minute: number, team: Team }[] = [];
   redCardsA: number[] = [];
   redCardsB: number[] = [];
+  private expelledByTeam = new Map<number, { name: string; minute: number }[]>();
+  private preparedRedCards = new Map<number, Map<number, string | null>>();
 
   placeholderImage = '/assets/placeholder_pelota.png';
 
@@ -197,6 +201,7 @@ export class PlayMatchComponent implements OnInit {
     this.matchResult = undefined;
     this.matchClock = 0;
     this.isMatchInProgress = true;
+    this.expelledByTeam.clear();
     this.incidentsLog = [];
 
     const idA = this.selectedTeamA.id;
@@ -252,8 +257,9 @@ export class PlayMatchComponent implements OnInit {
   private finalizeMatch(adjustedScoreA: number, adjustedScoreB: number): void {
     const teamA = this.selectedTeamA!;
     const teamB = this.selectedTeamB!;
-    this.pushRedCardLogs(this.selectedTeamA!, this.redCardsA);
-    this.pushRedCardLogs(this.selectedTeamB!, this.redCardsB);
+
+    this.prepareRedCardData(teamA, this.redCardsA);
+    this.prepareRedCardData(teamB, this.redCardsB);
 
     this.apiService.getMatchResult(adjustedScoreA, adjustedScoreB).subscribe({
       next: (result) => {
@@ -262,43 +268,158 @@ export class PlayMatchComponent implements OnInit {
         this.generateGoalTimeline();
         this.startMatchClock();
       },
-      error: () => {
-        this.isLoading = false;
-      }
+      error: () => { this.isLoading = false; }
     });
   }
 
-  private pushRedCardLogs(team: Team, redCardMinutes: number[]): void {
+  private prepareRedCardData(team: Team, redCardMinutes: number[]): void {
     const teamId = team.id;
     const hasPlayers = this.teamHasPlayers.get(teamId) === true;
     const players = this.allPlayersByTeam.get(teamId) ?? [];
 
-    redCardMinutes.forEach(min => {
-      let log = `🟥 Roja para ${team.name}`;
+    const perMinute = new Map<number, string | null>();
+
+    for (const minute of redCardMinutes) {
+      let expelledName: string | null = null;
 
       if (hasPlayers) {
-        const candidates = players.filter(p => p.position !== '');
+        const candidates = players.filter(p => p.position && p.position.trim() !== '');
 
-        const grouped = {
-          DEF: candidates.filter(p => p.position === 'DEF'),
-          VOL: candidates.filter(p => p.position === 'VOL'),
-          DEL: candidates.filter(p => p.position === 'DEL'),
-        };
+        const DEF = candidates.filter(p => p.position === 'DEF');
+        const VOL = candidates.filter(p => p.position === 'VOL');
+        const DEL = candidates.filter(p => p.position === 'DEL');
 
-        const weightedPool: any[] = [];
-        grouped.DEF.forEach(p => weightedPool.push(...Array(5).fill(p)));
-        grouped.VOL.forEach(p => weightedPool.push(...Array(3).fill(p)));
-        grouped.DEL.forEach(p => weightedPool.push(...Array(2).fill(p)));
+        const weighted: typeof candidates = [];
+        DEF.forEach(p => weighted.push(...Array(5).fill(p)));
+        VOL.forEach(p => weighted.push(...Array(3).fill(p)));
+        DEL.forEach(p => weighted.push(...Array(2).fill(p)));
 
-        if (weightedPool.length > 0) {
-          const expelled = weightedPool[Math.floor(Math.random() * weightedPool.length)];
-          log += ` — ${expelled.name}`;
+        if (weighted.length > 0) {
+          const expelled = weighted[Math.floor(Math.random() * weighted.length)];
+          expelledName = expelled.name;
+
+          if (!this.expelledByTeam.has(teamId)) this.expelledByTeam.set(teamId, []);
+          this.expelledByTeam.get(teamId)!.push({ name: expelledName, minute });
         }
       }
 
-      log += ` (${min}')`;
-      this.incidentsLog.push(log);
-    });
+      perMinute.set(minute, expelledName);
+    }
+
+    this.preparedRedCards.set(teamId, perMinute);
+  }
+
+  private pushRedCardLogIfMinute(team: Team, minute: number): void {
+    const map = this.preparedRedCards.get(team.id);
+    if (!map) return;
+    if (!map.has(minute)) return;
+
+    const name = map.get(minute);
+    let log = `🟥 Roja para ${team.name}`;
+    if (name) log += ` — ${name}`;
+    log += ` (${minute}')`;
+    this.incidentsLog.push(log);
+    this.scrollToBottom();
+  }
+
+  private getExpelledNamesUpTo(teamId: number, minute: number): Set<string> {
+    const list = this.expelledByTeam.get(teamId) ?? [];
+    return new Set(list.filter(e => e.minute <= minute).map(e => e.name));
+  }
+
+  private getEligiblePlayers(teamId: number, minute: number): Player[] {
+    const all = (this.allPlayersByTeam.get(teamId) ?? []) as Player[];
+    if (!all.length) return [];
+    const expelled = this.getExpelledNamesUpTo(teamId, minute);
+    return all.filter(p => !expelled.has(p.name));
+  }
+
+  private pickWeighted<T extends { goalProbability?: number }>(items: T[], getWeight: (x: T) => number): T | null {
+    let sum = 0;
+    for (const it of items) sum += Math.max(0, getWeight(it));
+    if (sum <= 0) return items.length ? items[Math.floor(Math.random() * items.length)] : null;
+    let r = Math.random() * sum;
+    for (const it of items) {
+      r -= Math.max(0, getWeight(it));
+      if (r <= 0) return it;
+    }
+    return items[items.length - 1] ?? null;
+  }
+
+  private pickScorerName(teamId: number, minute: number, forPenalty: boolean): string | null {
+    let eligible = this.getEligiblePlayers(teamId, minute);
+    if (!eligible.length) return null;
+
+    if (forPenalty) {
+      const shooters = eligible.filter(p => p.isPenaltyShooter);
+      if (shooters.length) eligible = shooters;
+    }
+
+    const picked = this.pickWeighted(eligible, (p) => p.goalProbability ?? 1);
+    return picked?.name ?? null;
+  }
+
+  adjustPenaltyShootersForRedCards(): void {
+    const teamIds = Array.from(this.penaltyPlayersByTeam.keys());
+
+    for (const teamId of teamIds) {
+      const shooters = (this.penaltyPlayersByTeam.get(teamId) ?? []) as Player[];
+      const expelledNames: string[] = (this.expelledByTeam.get(teamId) ?? []).map(e => e.name);
+
+      const filteredShooters: Player[] = shooters.filter(p => !expelledNames.includes(p.name));
+      const reordered: Player[] = filteredShooters.map((p, idx) => ({ ...p, penaltyOrder: idx + 1 }));
+
+      this.penaltyPlayersByTeam.set(teamId, reordered);
+    }
+
+    const countA = this.penaltyPlayersByTeam.get(teamIds[0])?.length || 0;
+    const countB = this.penaltyPlayersByTeam.get(teamIds[1])?.length || 0;
+
+    if (countA === 11 && countB === 10) {
+      const shootersA = this.penaltyPlayersByTeam.get(teamIds[0])! as Player[];
+      const reduced = shootersA.filter(p => p.penaltyOrder !== 11);
+      this.penaltyPlayersByTeam.set(teamIds[0], reduced);
+    }
+
+    if (countB === 11 && countA === 10) {
+      const shootersB = this.penaltyPlayersByTeam.get(teamIds[1])! as Player[];
+      const reduced = shootersB.filter(p => p.penaltyOrder !== 11);
+      this.penaltyPlayersByTeam.set(teamIds[1], reduced);
+    }
+  }
+
+  simulateRedCardForTeam(team: Team, players: Player[], minute: number): void {
+    const hasPlayers = players && players.length > 0;
+    let log = `🔴 Roja para ${team.name} (${minute}')`;
+
+    if (hasPlayers) {
+      const candidates = players.filter(p => p.position !== '');
+
+      const grouped = {
+        DEF: candidates.filter(p => p.position === 'DEF'),
+        VOL: candidates.filter(p => p.position === 'VOL'),
+        DEL: candidates.filter(p => p.position === 'DEL'),
+      };
+
+      const weightedPool: Player[] = [];
+      grouped.DEF.forEach(p => weightedPool.push(...Array(5).fill(p)));
+      grouped.VOL.forEach(p => weightedPool.push(...Array(3).fill(p)));
+      grouped.DEL.forEach(p => weightedPool.push(...Array(2).fill(p)));
+
+      if (weightedPool.length > 0) {
+        const expelled = weightedPool[Math.floor(Math.random() * weightedPool.length)];
+        log += ` — ${expelled.name}`;
+
+        if (!this.expelledByTeam.has(team.id)) {
+          this.expelledByTeam.set(team.id, []);
+        }
+
+        this.expelledByTeam.get(team.id)!.push({ name: expelled.name, minute });
+      }
+    }
+
+    this.incidentsLog.push(log);
+    this.scrollToBottom();
   }
 
   repeatMatch(): void {
@@ -369,23 +490,19 @@ export class PlayMatchComponent implements OnInit {
     const teamId = team.id;
     const has = this.teamHasPlayers.get(teamId) === true;
     const isPenaltyGoal = Math.floor(Math.random() * 10) === 0;
+
     if (!has) {
       const penaltyTag = isPenaltyGoal ? ' —P—' : '';
       this.incidentsLog.push(`⚽ Gol de ${team.name}${penaltyTag} (${minute}')`);
+      this.scrollToBottom();
       return;
     }
 
-    this.apiService.getRandomScorer(teamId, isPenaltyGoal).subscribe({
-      next: (author) => {
-        const authorText = author ? ` — ${author.name}` : '';
-        const penaltyTag = isPenaltyGoal ? ' —P—' : '';
-        this.incidentsLog.push(`⚽ Gol de ${team.name}${authorText}${penaltyTag} (${minute}')`);
-      },
-      error: () => {
-        const penaltyTag = isPenaltyGoal ? ' —P—' : '';
-        this.incidentsLog.push(`⚽ Gol de ${team.name}${penaltyTag} (${minute}')`);
-      }
-    });
+    const authorName = this.pickScorerName(teamId, minute, isPenaltyGoal);
+    const authorText = authorName ? ` — ${authorName}` : '';
+    const penaltyTag = isPenaltyGoal ? ' —P—' : '';
+    this.incidentsLog.push(`⚽ Gol de ${team.name}${authorText}${penaltyTag} (${minute}')`);
+    this.scrollToBottom();
   }
 
   startMatchClock() {
@@ -396,14 +513,22 @@ export class PlayMatchComponent implements OnInit {
     this.matchTimer = setInterval(() => {
       minute++;
       this.matchClock = minute;
+
+      if (this.selectedTeamA && this.redCardsA.includes(minute)) {
+        this.pushRedCardLogIfMinute(this.selectedTeamA, minute);
+      }
+      if (this.selectedTeamB && this.redCardsB.includes(minute)) {
+        this.pushRedCardLogIfMinute(this.selectedTeamB, minute);
+      }
+
       const allMissed = [...this.missedPenaltiesA, ...this.missedPenaltiesB];
       const missedNow = allMissed.filter(mp => mp.minute === minute);
       missedNow.forEach(mp => this.pushMissedPenaltyLog(mp.team, minute));
+
       if (this.goalTimelineA.includes(minute) && this.selectedTeamA) {
         this.liveGoalsA++;
         this.pushIncidentsLog(this.selectedTeamA, minute, 'A');
       }
-
       if (this.goalTimelineB.includes(minute) && this.selectedTeamB) {
         this.liveGoalsB++;
         this.pushIncidentsLog(this.selectedTeamB, minute, 'B');
@@ -424,6 +549,7 @@ export class PlayMatchComponent implements OnInit {
     const outcomeRoll = Math.floor(Math.random() * 6) + 1;
     const genericText = 'erró un penal';
 
+    const shooterNamePicked = this.pickScorerName(teamId, minute, true);
     this.apiService.getRandomScorer(teamId, true).subscribe({
       next: (author) => {
         const shooterName = author?.name ?? '';
@@ -450,32 +576,39 @@ export class PlayMatchComponent implements OnInit {
             }
 
             this.incidentsLog.push(`❌ ${teamName} ` + genericText + ` 🧤 ${atajadaTexto} (${minute}')`);
+            this.scrollToBottom();
             break;
 
           case 3:
             if (isGenericShooter) {
               this.incidentsLog.push(`❌ ${teamName} ` + genericText + ` 🥅 Travesaño (${minute}')`);
+              this.scrollToBottom();
             } else {
               this.incidentsLog.push(`❌ ${teamName} ` + genericText + ` 🥅 Travesaño de${shooterPart} (${minute}')`);
+              this.scrollToBottom();
             }
             break;
 
           case 4:
             if (isGenericShooter) {
               this.incidentsLog.push(`❌ ${teamName} ` + genericText + ` 🥅 Palo (${minute}')`);
+              this.scrollToBottom();
             } else {
               this.incidentsLog.push(`❌ ${teamName} ` + genericText + ` 🥅 Palo de${shooterPart} (${minute}')`);
+              this.scrollToBottom();
             }
             break;
 
           case 5:
           case 6:
             this.incidentsLog.push(`❌ ${teamName} ` + genericText + ` 🎯 Afuera${shooterPart} (${minute}')`);
+            this.scrollToBottom();
             break;
         }
       },
       error: () => {
         this.incidentsLog.push(`❌ Penal errado de ${teamName} (${minute}')`);
+        this.scrollToBottom();
       }
     });
   }
@@ -580,6 +713,7 @@ export class PlayMatchComponent implements OnInit {
 
       this.penaltyPlayersByTeam.set(idA, orderedA);
       this.penaltyPlayersByTeam.set(idB, orderedB);
+      this.adjustPenaltyShootersForRedCards();
       this.allPlayersByTeam.set(idA, a);
       this.allPlayersByTeam.set(idB, b);
 
@@ -611,6 +745,7 @@ export class PlayMatchComponent implements OnInit {
 
     if (result === '✅') {
       this.penaltyShootoutLog.push(`✅ ${teamName} ⚽${shooterPart}`);
+      this.scrollToBottom();
     } else {
       const rival = this.currentShooter === 0 ? 1 : 0;
       const goalkeeperName = this.getGoalkeeperName(rival);
@@ -632,14 +767,17 @@ export class PlayMatchComponent implements OnInit {
           }
 
           this.penaltyShootoutLog.push(`❌ ${teamName} 🧤 ${atajadaTexto}`);
+          this.scrollToBottom();
           break;
         case 9:
           const paloOrTravesanio = Math.random() < 0.5 ? 'Palo' : 'Travesaño';
           const paloTexto = isGenericShooter ? paloOrTravesanio : `${paloOrTravesanio} de ${shooterName}`;
           this.penaltyShootoutLog.push(`❌ ${teamName} 🥅 ${paloTexto}`);
+          this.scrollToBottom();
           break;
         case 10:
           this.penaltyShootoutLog.push(`❌ ${teamName} 🎯 Afuera ${shooterPart}`);
+          this.scrollToBottom();
           break;
       }
     }
@@ -855,6 +993,13 @@ export class PlayMatchComponent implements OnInit {
     if (pool.length === 0) pool = this.getFiltered('B');
     const reroll = this.randomFromArray(pool);
     if (reroll) this.selectedTeamB = reroll;
+  }
+
+  private scrollToBottom() {
+    setTimeout(() => {
+      const el = this.scrollPanel?.nativeElement;
+      if (el) el.scrollTop = el.scrollHeight;
+    }, 0);
   }
 
   resetMatch() {
