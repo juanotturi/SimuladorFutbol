@@ -158,7 +158,10 @@ export class PlayMatchComponent implements OnInit {
     if (!teamId) return teamName;
 
     const shooters = this.penaltyPlayersByTeam.get(teamId);
-    if (!shooters || shooters.length === 0) return teamName;
+    if (!shooters || shooters.length === 0) {
+      this.lastShooters[teamIndex] = '';
+      return teamName;
+    }
 
     const shotsTaken = this.penaltyTurns[teamIndex].length;
     const shooter = shooters[shotsTaken % shooters.length];
@@ -698,6 +701,7 @@ export class PlayMatchComponent implements OnInit {
     this.penaltyPlayersByTeam.clear();
     this.penaltyShootoutLog = [];
     this.allPlayersByTeam.clear();
+    this.lastShooters = ['', ''];
 
     const idA = this.selectedTeamA?.id;
     const idB = this.selectedTeamB?.id;
@@ -732,62 +736,58 @@ export class PlayMatchComponent implements OnInit {
   takePenalty() {
     if (!this.penaltyShootoutActive || this.penaltyWinner) return;
 
+    const teamIndex = this.currentShooter;
+    const shooterNameResolved = this.getCurrentPenaltyShooter();
+
     const roll = Math.floor(Math.random() * 10) + 1;
     const result: '✅' | '❌' = roll <= 7 ? '✅' : '❌';
-    this.penaltyTurns[this.currentShooter].push(result);
 
-    const team = this.currentShooter === 0 ? this.selectedTeamA : this.selectedTeamB;
+    this.penaltyTurns[teamIndex].push(result);
+
+    const team = teamIndex === 0 ? this.selectedTeamA : this.selectedTeamB;
     const teamName = team?.name ?? 'Equipo';
 
-    const shooterName = this.lastShooters[this.currentShooter];
-    const isGenericShooter = !shooterName || shooterName.trim() === '' || shooterName === teamName;
-    const shooterPart = isGenericShooter ? '' : ` ${shooterName}`;
+    const isGenericShooter =
+      !shooterNameResolved || shooterNameResolved.trim() === '' || shooterNameResolved === teamName;
+    const shooterPart = isGenericShooter ? '' : ` ${shooterNameResolved}`;
 
     if (result === '✅') {
       this.penaltyShootoutLog.push(`✅ ${teamName} ⚽${shooterPart}`);
-      this.scrollToBottom();
     } else {
-      const rival = this.currentShooter === 0 ? 1 : 0;
+      const rival = teamIndex === 0 ? 1 : 0;
       const goalkeeperName = this.getGoalkeeperName(rival);
+
       switch (roll) {
-        case 8:
+        case 8: {
           const hasGoalkeeper = goalkeeperName !== 'el arquero';
           const hasShooter = !isGenericShooter;
-
           let atajadaTexto = '';
 
-          if (!hasGoalkeeper && !hasShooter) {
-            atajadaTexto = 'Atajó el arquero';
-          } else if (hasGoalkeeper && !hasShooter) {
-            atajadaTexto = `Atajó ${goalkeeperName}`;
-          } else if (!hasGoalkeeper && hasShooter) {
-            atajadaTexto = `Atajó el arquero a ${shooterName}`;
-          } else {
-            atajadaTexto = `Atajó ${goalkeeperName} a ${shooterName}`;
-          }
+          if (!hasGoalkeeper && !hasShooter) atajadaTexto = 'Atajó el arquero';
+          else if (hasGoalkeeper && !hasShooter) atajadaTexto = `Atajó ${goalkeeperName}`;
+          else if (!hasGoalkeeper && hasShooter) atajadaTexto = `Atajó el arquero a ${shooterNameResolved}`;
+          else atajadaTexto = `Atajó ${goalkeeperName} a ${shooterNameResolved}`;
 
           this.penaltyShootoutLog.push(`❌ ${teamName} 🧤 ${atajadaTexto}`);
-          this.scrollToBottom();
           break;
-        case 9:
+        }
+        case 9: {
           const paloOrTravesanio = Math.random() < 0.5 ? 'Palo' : 'Travesaño';
-          const paloTexto = isGenericShooter ? paloOrTravesanio : `${paloOrTravesanio} de ${shooterName}`;
+          const paloTexto = isGenericShooter ? paloOrTravesanio : `${paloOrTravesanio} de ${shooterNameResolved}`;
           this.penaltyShootoutLog.push(`❌ ${teamName} 🥅 ${paloTexto}`);
-          this.scrollToBottom();
           break;
+        }
         case 10:
-          this.penaltyShootoutLog.push(`❌ ${teamName} 🎯 Afuera ${shooterPart}`);
-          this.scrollToBottom();
+          this.penaltyShootoutLog.push(`❌ ${teamName} 🎯 Afuera${shooterPart}`);
           break;
       }
     }
 
+    this.scrollToBottom();
     this.checkPenaltyWinner();
-
-    if (!this.penaltyWinner) {
-      this.currentShooter = this.currentShooter === 0 ? 1 : 0;
-    }
+    if (!this.penaltyWinner) this.currentShooter = teamIndex === 0 ? 1 : 0;
   }
+
 
   getGoalkeeperName(teamIndex: 0 | 1): string {
     const team = teamIndex === 0 ? this.selectedTeamA : this.selectedTeamB;

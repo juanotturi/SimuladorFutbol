@@ -34,7 +34,6 @@
   font-weight: 600;
 }
 
-/* Botón compacto para que calce con la altura del input */
 .btn-secondary {
   padding: 6px 10px;
   font-size: 13px;
@@ -449,7 +448,7 @@ button:hover:enabled {
   align-items: stretch;
   position: relative;
   gap: 18px;
-  margin-bottom: 16px;
+  margin-bottom: 36px;
   min-height: 160px;
   height: 160px;
 }
