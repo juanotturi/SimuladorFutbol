@@ -14,9 +14,11 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("https://*.vercel.app", "http://localhost:4200")
-                        .allowedMethods("*")
-                        .allowedHeaders("*");
+                        .allowedOriginPatterns("https://*.vercel.app", "http://localhost:4200")
+                        .allowedMethods("GET","POST","PUT","DELETE","OPTIONS")
+                        .allowedHeaders("*")
+                        .allowCredentials(false)
+                        .maxAge(3600);
             }
         };
     }
