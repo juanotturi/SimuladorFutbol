@@ -5,11 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.simuladorfutbol.dto.PlayerDTO;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.nio.file.Path;
-import java.util.*;
+import java.io.InputStream;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -20,20 +22,23 @@ public class PlayerService {
     private List<PlayerDTO> allPlayers = List.of();
     private final Map<Long, List<PlayerDTO>> byTeam = new ConcurrentHashMap<>();
 
-    private final Path playerJsonPath;
+    private final ResourceLoader resourceLoader;
+    private final String playersLocation;
 
-    public PlayerService(@Value("${data.base-path}") String basePath) {
-        this.playerJsonPath = Path.of(basePath, "players.json");
+    public PlayerService(ResourceLoader resourceLoader,
+                         @Value("${data.base-path}") String basePath) {
+        this.resourceLoader = resourceLoader;
+        String normalized = basePath.endsWith("/") ? basePath : basePath + "/";
+        this.playersLocation = normalized + "players.json";
     }
 
-    // Comentario de prueba
     @PostConstruct
     public void load() {
         try {
-            File file = playerJsonPath.toFile();
-            System.out.println("Leyendo archivo de jugadores desde: " + file.getAbsolutePath());
-            allPlayers = mapper.readValue(file, new TypeReference<>() {});
-            System.out.println("Jugadores cargados: " + allPlayers.size());
+            Resource resource = resourceLoader.getResource(playersLocation);
+            try (InputStream is = resource.getInputStream()) {
+                allPlayers = mapper.readValue(is, new TypeReference<>() {});
+            }
 
             allPlayers.forEach(p -> {
                 if (p.getGoalProbability() < 0) p.setGoalProbability(0);
@@ -44,17 +49,17 @@ public class PlayerService {
             byTeam.clear();
             byTeam.putAll(grouped);
 
+            System.out.println("✅ Jugadores cargados: " + allPlayers.size() +
+                    " desde " + playersLocation);
         } catch (Exception e) {
-            System.out.println("Error al cargar jugadores:");
+            System.out.println("❌ Error al cargar jugadores desde " + playersLocation);
             e.printStackTrace();
             allPlayers = List.of();
             byTeam.clear();
         }
     }
 
-    public List<PlayerDTO> findAll() {
-        return allPlayers;
-    }
+    public List<PlayerDTO> findAll() { return allPlayers; }
 
     public List<PlayerDTO> findByTeam(long teamId) {
         return byTeam.getOrDefault(teamId, List.of());
@@ -71,10 +76,8 @@ public class PlayerService {
         if (filtered.isEmpty()) filtered = players;
 
         int total = filtered.stream().mapToInt(p -> Math.max(0, p.getGoalProbability())).sum();
-        if (total <= 0) {
-            int idx = (int) (Math.random() * filtered.size());
-            return filtered.get(idx);
-        }
+        if (total <= 0) return filtered.get((int) (Math.random() * filtered.size()));
+
         double r = Math.random() * total;
         for (PlayerDTO p : filtered) {
             r -= Math.max(0, p.getGoalProbability());

@@ -5,10 +5,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.simuladorfutbol.dto.TeamDTO;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.nio.file.Path;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,35 +18,40 @@ public class TeamService {
 
     private final List<TeamDTO> teams = new ArrayList<>();
     private final ObjectMapper mapper = new ObjectMapper();
-    private final Path teamJsonPath;
 
-    public TeamService(@Value("${data.base-path}") String basePath) {
-        this.teamJsonPath = Path.of(basePath, "teams.json");
+    private final ResourceLoader resourceLoader;
+    private final String teamsLocation;
+
+    public TeamService(ResourceLoader resourceLoader,
+                       @Value("${data.base-path}") String basePath) {
+        this.resourceLoader = resourceLoader;
+        String normalized = basePath.endsWith("/") ? basePath : basePath + "/";
+        this.teamsLocation = normalized + "teams.json";
     }
 
     @PostConstruct
     public void loadTeams() {
         try {
-            File file = teamJsonPath.toFile();
-            if (!file.exists()) {
+            Resource resource = resourceLoader.getResource(teamsLocation);
+            if (!resource.exists()) {
+                System.err.println("⚠️ No se encontró " + teamsLocation);
                 return;
             }
-
-            List<TeamDTO> loaded = mapper.readValue(file, new TypeReference<>() {});
-            System.out.println("📊 Equipos cargados: " + loaded.size());
-
-            teams.clear();
-            teams.addAll(loaded);
+            try (InputStream is = resource.getInputStream()) {
+                List<TeamDTO> loaded = mapper.readValue(is, new TypeReference<>() {});
+                teams.clear();
+                teams.addAll(loaded);
+                System.out.println("✅ Equipos cargados: " + teams.size() +
+                        " desde " + teamsLocation);
+            }
         } catch (Exception e) {
-            System.err.println("❌ Error cargando teams.json: " + e.getMessage());
+            System.err.println("❌ Error cargando teams.json desde " + teamsLocation + ": " + e.getMessage());
             e.printStackTrace();
         }
     }
 
     public List<TeamDTO> getAllTeams() {
-        if (teams.isEmpty()) {
-            loadTeams();
-        }
+        if (teams.isEmpty()) loadTeams();
         return teams;
     }
 
