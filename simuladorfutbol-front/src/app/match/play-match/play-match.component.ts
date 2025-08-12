@@ -172,13 +172,15 @@ export class PlayMatchComponent implements OnInit {
   get filteredTeamsA(): Team[] {
     return this.teams
       .filter(t => this.typeA === 'SELECCION' ? !t.league : !!t.league)
-      .filter(t => this.filterAConfLeague ? (t.confederation === this.filterAConfLeague || t.league === this.filterAConfLeague) : true);
+      .filter(t => this.filterAConfLeague ? (t.confederation === this.filterAConfLeague || t.league === this.filterAConfLeague) : true)
+      .sort((a, b) => a.name.localeCompare(b.name));
   }
 
   get filteredTeamsB(): Team[] {
     return this.teams
       .filter(t => this.typeB === 'SELECCION' ? !t.league : !!t.league)
-      .filter(t => this.filterBConfLeague ? (t.confederation === this.filterBConfLeague || t.league === this.filterBConfLeague) : true);
+      .filter(t => this.filterBConfLeague ? (t.confederation === this.filterBConfLeague || t.league === this.filterBConfLeague) : true)
+      .sort((a, b) => a.name.localeCompare(b.name));
   }
 
   playMatch() {
