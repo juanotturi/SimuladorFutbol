@@ -421,51 +421,73 @@ button:hover:enabled {
   display: none;
 }
 
+/* =========================
+   MOBILE (≤960px)
+   ========================= */
 @media (max-width: 960px) {
+
+  /* Evitar desborde lateral */
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
+  .match-container,
+  .selectors-column,
+  .result-column,
+  .team-selector,
+  .incidents-fullwidth {
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  /* Layout general */
   .match-container {
     flex-direction: column;
     align-items: stretch;
   }
 
-  .selectors-column,
-  .result-column {
-    background-color: rgba(255, 255, 255, .85);
+  /* Selector ancho, centrado y sin pasarse */
+  .selectors-column {
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
     padding: 16px;
+    background-color: rgba(255, 255, 255, .85);
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, .1);
-    width: 100%;
-    max-width: 680px;
-    margin: 0 auto;
   }
 
-  .selectors-column {
-    max-width: none;
-    padding: 16px;
-  }
-
+  /* La sección del partido sin “tarjeta” opaca */
   .result-column {
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0 16px;
     background: transparent !important;
     box-shadow: none !important;
-    padding: 0 16px;
   }
-}
 
-@media (max-width: 960px) {
-
+  /* Orden: banderas -> marcador; logs van abajo (fuera del grid) */
   .play-grid {
     grid-template-columns: 1fr 1fr;
     grid-template-areas:
       "teamA      teamB"
       "scoreboard scoreboard";
     justify-items: center;
+    align-items: start;
+    height: auto;
   }
 
+  /* Marcador + cronómetro centrados */
   .scoreboard {
+    grid-area: scoreboard;
+    justify-self: center;
     align-self: center;
   }
 
   .score-central-absolute {
-    width: 100%;
+    width: auto;
     min-width: 0;
     margin-top: 0;
     display: flex;
@@ -474,16 +496,12 @@ button:hover:enabled {
     justify-content: center;
   }
 
-  .match-minute {
-    text-align: center;
-    margin-bottom: 4px;
-  }
-
   .match-minute,
   .score-display {
     text-align: center;
   }
 
+  /* Tarjetas de equipo fluidas */
   .team-display {
     height: auto;
     position: static;
@@ -493,6 +511,7 @@ button:hover:enabled {
     position: static;
   }
 
+  /* Escudos/banderas uniformes */
   .flag-large {
     width: 42vw;
     max-width: 300px;
@@ -501,6 +520,7 @@ button:hover:enabled {
     object-fit: contain;
   }
 
+  /* Mostrar solo los logs móviles a ancho completo */
   .desktop-only {
     display: none !important;
   }
@@ -517,22 +537,24 @@ button:hover:enabled {
   }
 
   .incidents-fullwidth {
-    max-width: 680px;
+    max-width: 640px;
     margin: 8px auto 0;
     max-height: 60vh;
     overflow: auto;
   }
 
+  /* Botones centrados y sin sticky */
   .match-action-buttons {
     position: static;
     bottom: auto;
     z-index: auto;
     justify-content: center;
-    gap: 10px;
-    margin: 8px 0 12px;
+    gap: 12px;
+    margin: 10px 0 12px;
     padding-bottom: env(safe-area-inset-bottom, 0);
   }
 
+  /* Ganador adaptativo */
   .winner-box {
     align-self: stretch;
     max-width: none;
@@ -540,6 +562,7 @@ button:hover:enabled {
   }
 }
 
+/* Ultra-compactos */
 @media (max-width: 400px) {
   .flag-large {
     width: 40vw;
