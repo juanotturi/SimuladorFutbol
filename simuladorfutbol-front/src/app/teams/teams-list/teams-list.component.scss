@@ -60,52 +60,41 @@ h1 {
 }
 
 @media (max-width: 640px) {
-  table thead {
-    display: none;
-  }
-
-  table,
-  tbody,
-  tr,
-  td {
-    display: block;
-    width: 100%;
-  }
-
-  tr {
-    background: rgba(255, 255, 255, .92);
-    border-radius: 10px;
-    padding: 10px;
-    margin-bottom: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, .08);
-  }
-
-  td {
+  .filters {
     display: grid;
-    grid-template-columns: 115px 1fr;
-    /* etiqueta + valor */
-    align-items: center;
-    border: 0;
-    text-align: left;
-    padding: 6px 0;
-  }
-
-  td::before {
-    content: attr(data-label);
-    font-weight: 600;
-    opacity: .7;
-    margin-right: 8px;
-  }
-
-  td.flag-cell {
     grid-template-columns: 1fr;
+    gap: 8px;
+    margin-top: 12px;
   }
 
-  td.flag-cell::before {
-    content: "";
+  .tabs button {
+    font-size: .9rem;
+    padding: 6px 10px;
+  }
+
+  table {
+    table-layout: fixed;
+    width: 100%;
+    font-size: .85rem;
+    margin-top: 12px;
+  }
+
+  table th,
+  table td {
+    padding: 6px 4px;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .flag-icon {
-    height: 28px;
+    height: 22px;
+    width: auto;
+  }
+
+  .table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 }
