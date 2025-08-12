@@ -133,7 +133,6 @@
   width: 100%;
 }
 
-/* ===== GRID (Desktop) ===== */
 .play-grid {
   display: grid;
   grid-template-columns: minmax(220px, 1fr) auto minmax(220px, 1fr) 280px;
@@ -414,7 +413,6 @@ button:hover:enabled {
   transform: scale(1.03);
 }
 
-/* ===== Helpers para alternar vistas ===== */
 .desktop-only {
   display: block;
 }
@@ -423,11 +421,10 @@ button:hover:enabled {
   display: none;
 }
 
-/* ===== MOBILE ===== */
-@media (max-width: 768px) {
+@media (max-width: 960px) {
   .match-container {
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
   }
 
   .selectors-column,
@@ -436,6 +433,20 @@ button:hover:enabled {
     padding: 16px;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, .1);
+    width: 100%;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .selectors-column {
+    max-width: none;
+    padding: 16px;
+  }
+
+  .result-column {
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 16px;
   }
 }
 
@@ -446,8 +457,7 @@ button:hover:enabled {
     grid-template-areas:
       "teamA      teamB"
       "scoreboard scoreboard";
-    height: auto;
-    align-items: start;
+    justify-items: center;
   }
 
   .scoreboard {
@@ -455,18 +465,23 @@ button:hover:enabled {
   }
 
   .score-central-absolute {
+    width: 100%;
+    min-width: 0;
+    margin-top: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-top: 0;
-    pointer-events: none;
-    width: 100%;
   }
 
   .match-minute {
     text-align: center;
     margin-bottom: 4px;
+  }
+
+  .match-minute,
+  .score-display {
+    text-align: center;
   }
 
   .team-display {
@@ -502,10 +517,12 @@ button:hover:enabled {
   }
 
   .incidents-fullwidth {
-    max-height: 55vh;
+    max-width: 680px;
+    margin: 8px auto 0;
+    max-height: 60vh;
+    overflow: auto;
   }
 
-  /* Botones centrados y sin sticky */
   .match-action-buttons {
     position: static;
     bottom: auto;
