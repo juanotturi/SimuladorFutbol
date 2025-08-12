@@ -435,7 +435,12 @@ button:hover:enabled {
       "teamA      teamB"
       "scoreboard scoreboard"
       "incidents  incidents";
+    height: auto;
     align-items: start;
+  }
+
+  .scoreboard {
+    align-self: center;
   }
 
   .score-central-absolute {
@@ -452,11 +457,48 @@ button:hover:enabled {
   .penalty-row {
     position: static;
   }
-}
 
-@media (max-width: 520px) {
+  .flag-large {
+    width: 42vw;
+    max-width: 300px;
+    height: auto;
+    object-fit: contain;
+  }
+
   .incidents {
     height: auto;
-    max-height: 48vh;
+    max-height: 52vh;
+    overflow: auto;
+    margin-top: 8px;
+  }
+
+  .match-action-buttons {
+    position: static;
+    bottom: auto;
+    z-index: auto;
+    justify-content: center;
+    gap: 10px;
+    margin: 8px 0 12px;
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+
+  .winner-box {
+    align-self: stretch;
+    max-width: none;
+    margin: 0 auto 12px;
+  }
+}
+
+@media (max-width: 400px) {
+  .flag-large {
+    width: 40vw;
+  }
+
+  .score-display {
+    font-size: 24px;
+  }
+
+  .penalty-score {
+    font-size: 14px;
   }
 }
