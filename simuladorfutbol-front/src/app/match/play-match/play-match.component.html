@@ -7,9 +7,7 @@
         <div class="selector-header">
           <h4>Equipo 1</h4>
           <button type="button" class="btn-secondary btn-compact" (click)="randomNext('A')"
-            [disabled]="isInteractionBlocked()">
-            🔀 Aleatorio
-          </button>
+            [disabled]="isInteractionBlocked()">🔀 Aleatorio</button>
         </div>
         <label>
           Tipo:
@@ -43,9 +41,7 @@
         <div class="selector-header">
           <h4>Equipo 2</h4>
           <button type="button" class="btn-secondary btn-compact" (click)="randomNext('B')"
-            [disabled]="isInteractionBlocked()">
-            🔀 Aleatorio
-          </button>
+            [disabled]="isInteractionBlocked()">🔀 Aleatorio</button>
         </div>
         <label>
           Tipo:
@@ -74,6 +70,7 @@
           </select>
         </label>
       </div>
+
       <label>
         Duración del partido:
         <select [(ngModel)]="selectedDuration" [disabled]="isInteractionBlocked()">
@@ -89,7 +86,7 @@
       <div class="play-grid">
         <div class="team-display team-a">
           <img [src]="selectedTeamA?.image ? assetsBaseUrl + '/' + selectedTeamA?.image : placeholderImage"
-            alt="{{ selectedTeamA?.name || 'Equipo 1' }}" class="flag-large">
+               alt="{{ selectedTeamA?.name || 'Equipo 1' }}" class="flag-large">
           <div>{{ selectedTeamA?.name || 'Equipo 1' }}</div>
           <div *ngIf="penaltyVisible" class="penalty-row">
             <span *ngFor="let r of getPenaltySlots(0).slice(-5)">{{ r }}</span>
@@ -97,18 +94,14 @@
         </div>
 
         <div class="score-central-absolute scoreboard">
-          <div *ngIf="matchClock > 0 && matchClock < 91" class="match-minute">
-            ⏱ Minuto: {{ matchClock }}
-          </div>
+          <div *ngIf="matchClock > 0 && matchClock < 91" class="match-minute">⏱ Minuto: {{ matchClock }}</div>
           <div class="score-display">
             <ng-container *ngIf="matchClock > 0 || isMatchPlayed || penaltyVisible; else placeholderScore">
               {{ liveGoalsA }}
-              <span class="penalty-score" *ngIf="penaltyVisible || matchResult?.penaltiesA != null">({{ penaltiesA
-                }})</span>
+              <span class="penalty-score" *ngIf="penaltyVisible || matchResult?.penaltiesA != null">({{ penaltiesA }})</span>
               -
               {{ liveGoalsB }}
-              <span class="penalty-score" *ngIf="penaltyVisible || matchResult?.penaltiesB != null">({{ penaltiesB
-                }})</span>
+              <span class="penalty-score" *ngIf="penaltyVisible || matchResult?.penaltiesB != null">({{ penaltiesB }})</span>
             </ng-container>
             <ng-template #placeholderScore>-</ng-template>
           </div>
@@ -116,14 +109,14 @@
 
         <div class="team-display team-b">
           <img [src]="selectedTeamB?.image ? assetsBaseUrl + '/' + selectedTeamB?.image : placeholderImage"
-            alt="{{ selectedTeamB?.name || 'Equipo 2' }}" class="flag-large">
+               alt="{{ selectedTeamB?.name || 'Equipo 2' }}" class="flag-large">
           <div>{{ selectedTeamB?.name || 'Equipo 2' }}</div>
           <div *ngIf="penaltyVisible" class="penalty-row">
             <span *ngFor="let r of getPenaltySlots(1).slice(-5)">{{ r }}</span>
           </div>
         </div>
 
-        <aside class="incidents" *ngIf="(incidentsLog?.length || 0) > 0 || (penaltyShootoutLog?.length || 0) > 0">
+        <ng-template #logsBlock>
           <div class="incidents-log" *ngIf="incidentsLog.length > 0">
             <h4>Incidencias</h4>
             <ul>
@@ -137,6 +130,11 @@
               <li *ngFor="let entry of penaltyShootoutLog">{{ entry }}</li>
             </ul>
           </div>
+        </ng-template>
+
+        <aside class="incidents desktop-only"
+               *ngIf="(incidentsLog?.length || 0) > 0 || (penaltyShootoutLog?.length || 0) > 0">
+          <ng-container *ngTemplateOutlet="logsBlock"></ng-container>
         </aside>
       </div>
 
@@ -166,5 +164,9 @@
         </div>
       </div>
 
+      <aside class="incidents mobile-only incidents-fullwidth"
+             *ngIf="(incidentsLog?.length || 0) > 0 || (penaltyShootoutLog?.length || 0) > 0">
+        <ng-container *ngTemplateOutlet="logsBlock"></ng-container>
+      </aside>
     </div>
   </div>

@@ -133,6 +133,7 @@
   width: 100%;
 }
 
+/* ===== GRID (Desktop) ===== */
 .play-grid {
   display: grid;
   grid-template-columns: minmax(220px, 1fr) auto minmax(220px, 1fr) 280px;
@@ -150,12 +151,12 @@
   grid-area: teamB;
 }
 
-.scoreboard {
-  align-self: start;
+.incidents {
+  grid-area: incidents;
 }
 
-.teams-row {
-  display: contents;
+.scoreboard {
+  align-self: start;
 }
 
 .team-display {
@@ -413,6 +414,16 @@ button:hover:enabled {
   transform: scale(1.03);
 }
 
+/* ===== Helpers para alternar vistas ===== */
+.desktop-only {
+  display: block;
+}
+
+.mobile-only {
+  display: none;
+}
+
+/* ===== MOBILE ===== */
 @media (max-width: 768px) {
   .match-container {
     flex-direction: column;
@@ -429,12 +440,13 @@ button:hover:enabled {
 }
 
 @media (max-width: 960px) {
+
+  /* Orden: banderas -> marcador -> botones ; logs van abajo fuera del grid */
   .play-grid {
     grid-template-columns: 1fr 1fr;
     grid-template-areas:
       "teamA      teamB"
-      "scoreboard scoreboard"
-      "incidents  incidents";
+      "scoreboard scoreboard";
     height: auto;
     align-items: start;
   }
@@ -465,6 +477,15 @@ button:hover:enabled {
     object-fit: contain;
   }
 
+  /* Logs móviles, a ancho completo */
+  .desktop-only {
+    display: none !important;
+  }
+
+  .mobile-only {
+    display: block !important;
+  }
+
   .incidents {
     height: auto;
     max-height: 52vh;
@@ -472,6 +493,11 @@ button:hover:enabled {
     margin-top: 8px;
   }
 
+  .incidents-fullwidth {
+    max-height: 55vh;
+  }
+
+  /* Botones centrados y sin sticky */
   .match-action-buttons {
     position: static;
     bottom: auto;
