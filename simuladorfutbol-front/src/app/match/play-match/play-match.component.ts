@@ -548,13 +548,11 @@ export class PlayMatchComponent implements OnInit {
 
   private pushMissedPenaltyLog(team: Team, minute: number) {
     const teamId = team.id;
-    const has = this.teamHasPlayers.get(teamId) === true;
     const teamName = team.name;
 
     const outcomeRoll = Math.floor(Math.random() * 6) + 1;
     const genericText = 'erró un penal';
 
-    const shooterNamePicked = this.pickScorerName(teamId, minute, true);
     this.apiService.getRandomScorer(teamId, true).subscribe({
       next: (author) => {
         const shooterName = author?.name ?? '';
@@ -563,57 +561,43 @@ export class PlayMatchComponent implements OnInit {
 
         switch (outcomeRoll) {
           case 1:
-          case 2:
+          case 2: {
             const goalkeeperName = this.getGoalkeeperName(teamId === this.selectedTeamA?.id ? 1 : 0);
             const hasGoalkeeper = goalkeeperName !== 'el arquero';
             const hasShooter = !isGenericShooter;
-
             let atajadaTexto = '';
 
-            if (!hasGoalkeeper && !hasShooter) {
-              atajadaTexto = 'Atajó el arquero';
-            } else if (hasGoalkeeper && !hasShooter) {
-              atajadaTexto = `Atajó ${goalkeeperName}`;
-            } else if (!hasGoalkeeper && hasShooter) {
-              atajadaTexto = `Atajó el arquero a${shooterPart}`;
-            } else {
-              atajadaTexto = `Atajó ${goalkeeperName} a${shooterPart}`;
-            }
+            if (!hasGoalkeeper && !hasShooter) atajadaTexto = 'Atajó el arquero';
+            else if (hasGoalkeeper && !hasShooter) atajadaTexto = `Atajó ${goalkeeperName}`;
+            else if (!hasGoalkeeper && hasShooter) atajadaTexto = `Atajó el arquero a${shooterPart}`;
+            else atajadaTexto = `Atajó ${goalkeeperName} a${shooterPart}`;
 
-            this.incidentsLog.push(`❌ ${teamName} ` + genericText + ` 🧤 ${atajadaTexto} (${minute}')`);
-            this.scrollToBottom();
+            this.insertIncidentChrono(minute, `❌ ${teamName} ${genericText} 🧤 ${atajadaTexto}`);
             break;
-
-          case 3:
-            if (isGenericShooter) {
-              this.incidentsLog.push(`❌ ${teamName} ` + genericText + ` 🥅 Travesaño (${minute}')`);
-              this.scrollToBottom();
-            } else {
-              this.incidentsLog.push(`❌ ${teamName} ` + genericText + ` 🥅 Travesaño de${shooterPart} (${minute}')`);
-              this.scrollToBottom();
-            }
+          }
+          case 3: {
+            const txt = isGenericShooter
+              ? `❌ ${teamName} ${genericText} 🥅 Travesaño`
+              : `❌ ${teamName} ${genericText} 🥅 Travesaño de${shooterPart}`;
+            this.insertIncidentChrono(minute, txt);
             break;
-
-          case 4:
-            if (isGenericShooter) {
-              this.incidentsLog.push(`❌ ${teamName} ` + genericText + ` 🥅 Palo (${minute}')`);
-              this.scrollToBottom();
-            } else {
-              this.incidentsLog.push(`❌ ${teamName} ` + genericText + ` 🥅 Palo de${shooterPart} (${minute}')`);
-              this.scrollToBottom();
-            }
+          }
+          case 4: {
+            const txt = isGenericShooter
+              ? `❌ ${teamName} ${genericText} 🥅 Palo`
+              : `❌ ${teamName} ${genericText} 🥅 Palo de${shooterPart}`;
+            this.insertIncidentChrono(minute, txt);
             break;
-
+          }
           case 5:
-          case 6:
-            this.incidentsLog.push(`❌ ${teamName} ` + genericText + ` 🎯 Afuera${shooterPart} (${minute}')`);
-            this.scrollToBottom();
+          case 6: {
+            this.insertIncidentChrono(minute, `❌ ${teamName} ${genericText} 🎯 Afuera${shooterPart}`);
             break;
+          }
         }
       },
       error: () => {
-        this.incidentsLog.push(`❌ Penal errado de ${teamName} (${minute}')`);
-        this.scrollToBottom();
+        this.insertIncidentChrono(minute, `❌ Penal errado de ${teamName}`);
       }
     });
   }
@@ -697,6 +681,26 @@ export class PlayMatchComponent implements OnInit {
       if (min <= 80) return total + 2;
       return total + 1;
     }, 0);
+  }
+
+  private extractMinuteFromLog(line: string): number | null {
+    const m = line.match(/\((\d+)'/);
+    return m ? parseInt(m[1], 10) : null;
+  }
+
+  private insertIncidentChrono(minute: number, contentWithoutMinute: string): void {
+    const entry = `${contentWithoutMinute} (${minute}')`;
+
+    let idx = this.incidentsLog.length;
+    for (let i = 0; i < this.incidentsLog.length; i++) {
+      const m = this.extractMinuteFromLog(this.incidentsLog[i]);
+      if (m != null && minute < m) {
+        idx = i;
+        break;
+      }
+    }
+    this.incidentsLog.splice(idx, 0, entry);
+    this.scrollToBottom();
   }
 
   startPenaltyShootout() {

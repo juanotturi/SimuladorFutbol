@@ -123,7 +123,7 @@
           </div>
         </div>
 
-        <aside class="incidents">
+        <aside class="incidents" *ngIf="(incidentsLog?.length || 0) > 0 || (penaltyShootoutLog?.length || 0) > 0">
           <div class="incidents-log" *ngIf="incidentsLog.length > 0">
             <h4>Incidencias</h4>
             <ul>
@@ -131,7 +131,7 @@
             </ul>
           </div>
 
-          <div *ngIf="penaltyShootoutLog.length > 0" class="penalty-shootout-log">
+          <div class="penalty-shootout-log" *ngIf="penaltyShootoutLog.length > 0">
             <h4>Definición por penales</h4>
             <ul>
               <li *ngFor="let entry of penaltyShootoutLog">{{ entry }}</li>

@@ -130,18 +130,16 @@
 .result-block-wrapper {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   width: 100%;
 }
 
 .play-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 280px;
-  grid-template-areas:
-    "teamA teamB incidents"
-    "scoreboard scoreboard incidents";
-  align-items: start;
-  gap: 12px;
+  grid-template-columns: minmax(220px, 1fr) auto minmax(220px, 1fr) 280px;
+  grid-template-areas: "teamA scoreboard teamB incidents";
+  height: 200px;
+  align-items: stretch;
+  gap: 16px;
 }
 
 .team-a {
@@ -153,11 +151,7 @@
 }
 
 .scoreboard {
-  grid-area: scoreboard;
-}
-
-.incidents {
-  grid-area: incidents;
+  align-self: start;
 }
 
 .teams-row {
@@ -167,13 +161,14 @@
 .team-display {
   text-align: center;
   font-size: 14px;
-  margin-bottom: 12px;
+  align-self: start;
+  position: relative;
+  height: 210px;
 }
 
 .flag-large {
-  width: clamp(96px, 18vw, 210px);
-  height: auto;
-  aspect-ratio: 3 / 2;
+  width: 210px;
+  height: 140px;
   object-fit: contain;
   border: 1px solid #ccc;
   box-shadow: 1px 1px 4px rgba(0, 0, 0, .2);
@@ -185,10 +180,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   pointer-events: none;
-  width: auto;
-  min-width: 0;
-  margin-top: 0;
+  width: 140px;
+  min-width: 140px;
+  margin-top: 40px;
 }
 
 .match-minute {
@@ -212,14 +208,20 @@
   display: flex;
   gap: 4px;
   font-size: 20px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  justify-content: center;
 }
 
 .incidents {
-  background: rgba(255, 255, 255, .95);
+  height: 390px;
+  max-height: 390px;
+  overflow: auto;
+  background: transparent;
   border-radius: 10px;
   padding: 10px;
-  max-height: 42vh;
-  overflow: auto;
 }
 
 .incidents-log,
@@ -227,7 +229,7 @@
   padding: 8px 12px;
   border-radius: 8px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, .1);
-  background-color: #f9f9f9;
+  background: #f9f9f9;
   font-size: 14px;
 }
 
@@ -254,7 +256,7 @@
 .result-buttons-inline {
   display: flex;
   gap: 8px;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .result-buttons-inline button {
@@ -275,6 +277,12 @@
 .result-buttons-inline button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
+}
+
+@media (max-width: 960px) {
+  .result-buttons-inline {
+    justify-content: center;
+  }
 }
 
 .match-action-buttons {
@@ -424,14 +432,31 @@ button:hover:enabled {
   .play-grid {
     grid-template-columns: 1fr 1fr;
     grid-template-areas:
-      "teamA     teamB"
+      "teamA      teamB"
       "scoreboard scoreboard"
-      "incidents incidents";
+      "incidents  incidents";
+    align-items: start;
+  }
+
+  .score-central-absolute {
+    width: auto;
+    min-width: 0;
+    margin-top: 0;
+  }
+
+  .team-display {
+    height: auto;
+    position: static;
+  }
+
+  .penalty-row {
+    position: static;
   }
 }
 
 @media (max-width: 520px) {
   .incidents {
+    height: auto;
     max-height: 48vh;
   }
 }
