@@ -86,8 +86,8 @@
 
   <div class="result-column">
     <div class="result-block-wrapper">
-      <div class="teams-row">
-        <div class="team-display">
+      <div class="play-grid">
+        <div class="team-display team-a">
           <img [src]="selectedTeamA?.image ? assetsBaseUrl + '/' + selectedTeamA?.image : placeholderImage"
             alt="{{ selectedTeamA?.name || 'Equipo 1' }}" class="flag-large">
           <div>{{ selectedTeamA?.name || 'Equipo 1' }}</div>
@@ -96,7 +96,7 @@
           </div>
         </div>
 
-        <div class="score-central-absolute">
+        <div class="score-central-absolute scoreboard">
           <div *ngIf="matchClock > 0 && matchClock < 91" class="match-minute">
             ⏱ Minuto: {{ matchClock }}
           </div>
@@ -114,7 +114,7 @@
           </div>
         </div>
 
-        <div class="team-display">
+        <div class="team-display team-b">
           <img [src]="selectedTeamB?.image ? assetsBaseUrl + '/' + selectedTeamB?.image : placeholderImage"
             alt="{{ selectedTeamB?.name || 'Equipo 2' }}" class="flag-large">
           <div>{{ selectedTeamB?.name || 'Equipo 2' }}</div>
@@ -123,7 +123,7 @@
           </div>
         </div>
 
-        <div class="incidents-log-section" #scrollPanel style="margin-left: 24px; align-self: flex-start; width: fit-content;">
+        <aside class="incidents">
           <div class="incidents-log" *ngIf="incidentsLog.length > 0">
             <h4>Incidencias</h4>
             <ul>
@@ -137,9 +137,11 @@
               <li *ngFor="let entry of penaltyShootoutLog">{{ entry }}</li>
             </ul>
           </div>
-        </div>
+        </aside>
       </div>
+
       <hr class="divider" />
+
       <div class="result-buttons-inline match-action-buttons">
         <button *ngIf="isMatchPlayed || penaltyWinner" (click)="resetMatch()" [disabled]="penaltyShootoutActive">
           Reiniciar
@@ -163,5 +165,6 @@
           <p>{{ penaltyWinner.name }}</p>
         </div>
       </div>
+
     </div>
   </div>
