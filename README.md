@@ -1,6 +1,6 @@
 # Simulador de Fútbol
 
-Aplicación desarrollada con **Angular** (frontend) y **Spring Boot** (backend) que permite simular partidos de fútbol, incluyendo tiempo reglamentario, penales, tarjetas rojas y selección de equipos.
+Aplicación desarrollada con **Angular** (frontend) y **Spring Boot** (backend) que permite simular partidos de fútbol de manera realista, incluyendo tiempo reglamentario, penales, tarjetas rojas y selección de equipos.
 
 ## 🚀 Características
 
@@ -47,7 +47,7 @@ Aplicación desarrollada con **Angular** (frontend) y **Spring Boot** (backend) 
 - Resto de Europa
 - Asia, África y Oceanía
 
-## ⚽ Equipos Con Jugadores (provisorio)
+## 🏃‍♂️ Equipos Con Jugadores (provisorio)
 
 - Selección Argentina
 - River
@@ -67,7 +67,7 @@ Aplicación desarrollada con **Angular** (frontend) y **Spring Boot** (backend) 
 - PSG
 - PES United
 
-## ⚽ Funcionamiento del Algoritmo
+## 📟 Funcionamiento del Algoritmo
 
 - Todos los equipos del juego cuentan con un score del 1 al 100.
 - Todos los partidos constarán de un Equipo 1 y un Equipo 2.
