@@ -275,5 +275,21 @@
   { "id": 10273, "idTeam": 2109, "name": "Frenkie de Jong", "goalProbability": 6, "position": "VOL", "penaltyOrder": 0, "isPenaltyShooter": false },
   { "id": 10274, "idTeam": 2109, "name": "Fermín López", "goalProbability": 6, "position": "VOL", "penaltyOrder": 0, "isPenaltyShooter": false },
   { "id": 10275, "idTeam": 2109, "name": "Ferran Torres", "goalProbability": 6, "position": "DEL", "penaltyOrder": 0, "isPenaltyShooter": false },
-  { "id": 10276, "idTeam": 2109, "name": "Marcus Rashford", "goalProbability": 9, "position": "DEL", "penaltyOrder": 0, "isPenaltyShooter": false }  
+  { "id": 10276, "idTeam": 2109, "name": "Marcus Rashford", "goalProbability": 9, "position": "DEL", "penaltyOrder": 0, "isPenaltyShooter": false },
+  { "id": 10277, "idTeam": 2098, "name": "Gianluigi Donnarumma", "goalProbability": 0, "position": "ARQ", "penaltyOrder": 11, "isPenaltyShooter": false },
+  { "id": 10278, "idTeam": 2098, "name": "Rúben Dias", "goalProbability": 2, "position": "DEF", "penaltyOrder": 10, "isPenaltyShooter": false },
+  { "id": 10279, "idTeam": 2098, "name": "John Stones", "goalProbability": 2, "position": "DEF", "penaltyOrder": 9, "isPenaltyShooter": false },
+  { "id": 10280, "idTeam": 2098, "name": "Joško Gvardiol", "goalProbability": 2, "position": "DEF", "penaltyOrder": 8, "isPenaltyShooter": false },
+  { "id": 10281, "idTeam": 2098, "name": "Manuel Akanji", "goalProbability": 2, "position": "DEF", "penaltyOrder": 7, "isPenaltyShooter": false },
+  { "id": 10282, "idTeam": 2098, "name": "Mateo Kovačić", "goalProbability": 6, "position": "VOL", "penaltyOrder": 6, "isPenaltyShooter": false },
+  { "id": 10283, "idTeam": 2098, "name": "Rodri", "goalProbability": 6, "position": "VOL", "penaltyOrder": 5, "isPenaltyShooter": false },
+  { "id": 10284, "idTeam": 2098, "name": "İlkay Gündoğan", "goalProbability": 6, "position": "VOL", "penaltyOrder": 4, "isPenaltyShooter": false },
+  { "id": 10285, "idTeam": 2098, "name": "Bernardo Silva", "goalProbability": 6, "position": "VOL", "penaltyOrder": 3, "isPenaltyShooter": false },
+  { "id": 10286, "idTeam": 2098, "name": "Erling Haaland", "goalProbability": 30, "position": "DEL", "penaltyOrder": 1, "isPenaltyShooter": true },
+  { "id": 10287, "idTeam": 2098, "name": "Phil Foden", "goalProbability": 25, "position": "DEL", "penaltyOrder": 2, "isPenaltyShooter": true },
+  { "id": 10288, "idTeam": 2098, "name": "Rayan Aït-Nouri", "goalProbability": 1, "position": "DEF", "penaltyOrder": 0, "isPenaltyShooter": false },
+  { "id": 10289, "idTeam": 2098, "name": "Nathan Aké", "goalProbability": 1, "position": "DEF", "penaltyOrder": 0, "isPenaltyShooter": false },
+  { "id": 10290, "idTeam": 2098, "name": "Nico González", "goalProbability": 3, "position": "VOL", "penaltyOrder": 0, "isPenaltyShooter": false },
+  { "id": 10291, "idTeam": 2098, "name": "Matheus Nunes", "goalProbability": 3, "position": "VOL", "penaltyOrder": 0, "isPenaltyShooter": false },
+  { "id": 10292, "idTeam": 2098, "name": "Jérémy Doku", "goalProbability": 5, "position": "DEL", "penaltyOrder": 0, "isPenaltyShooter": false }
 ]
