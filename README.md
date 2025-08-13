@@ -50,21 +50,22 @@ Aplicación desarrollada con **Angular** (frontend) y **Spring Boot** (backend) 
 ## 🏃‍♂️ Equipos Con Jugadores (provisorio)
 
 - Selección Argentina
-- River
-- Boca
+- River Plate
+- Boca Juniors
 - Independiente
 - Racing
-- San Lorenzo
-- Vélez
-- Estudiantes
-- Newell's
+- San Lorenzo de Almagro
+- Vélez Sarsfield
+- Estudiantes de La Plata
+- Newell's Old Boys
 - Rosario Central
 - Huracán
-- Inter Miami
 - Real Madrid
 - Barcelona
 - Chelsea
+- Manchester City
 - PSG
+- Inter Miami
 - PES United
 
 ## 📟 Funcionamiento del Algoritmo
