@@ -34,22 +34,22 @@ public class ProbabilityMatrix {
 
     private int bucketize(int score) {
         if (score >= 84) return 100;
-        if (score >= 79) return 83;
-        if (score >= 77) return 78;
-        if (score >= 75) return 76;
-        if (score >= 73) return 74;
-        if (score >= 71) return 72;
-        if (score >= 68) return 70;
-        if (score >= 65) return 67;
-        if (score >= 62) return 64;
-        if (score >= 59) return 61;
-        if (score >= 56) return 58;
-        if (score >= 53) return 55;
-        if (score >= 50) return 52;
-        if (score >= 47) return 49;
-        if (score >= 44) return 46;
-        if (score >= 41) return 43;
-        if (score >= 38) return 40;
-        return 37;
+        if (score >= 82) return 83;
+        if (score >= 80) return 81;
+        if (score >= 78) return 79;
+        if (score >= 76) return 77;
+        if (score >= 74) return 75;
+        if (score >= 72) return 73;
+        if (score >= 70) return 71;
+        if (score >= 67) return 69;
+        if (score >= 64) return 66;
+        if (score >= 61) return 63;
+        if (score >= 58) return 60;
+        if (score >= 55) return 57;
+        if (score >= 51) return 54;
+        if (score >= 47) return 50;
+        if (score >= 43) return 46;
+        if (score >= 39) return 42;
+        return 38;
     }
 }
