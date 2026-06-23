@@ -67,7 +67,7 @@ export class TeamsListComponent implements OnInit, OnDestroy {
       if (team.confederation) {
         confSet.add(team.confederation);
       }
-      if (team.league) {
+      if (team.league && team.league !== 'Sin competencia') {
         leagueSet.add(team.league);
       }
     });
@@ -104,7 +104,7 @@ export class TeamsListComponent implements OnInit, OnDestroy {
     if (this.selectedTab === 'SELECCIONES') {
       subset = subset.filter(t => t.league === null);
     } else if (this.selectedTab === 'CLUBES') {
-      subset = subset.filter(t => t.league !== null);
+      subset = subset.filter(t => t.league !== null && t.league !== 'Sin competencia');
     }
 
     if (this.selectedTab === 'SELECCIONES' && this.selectedConfederation) {
