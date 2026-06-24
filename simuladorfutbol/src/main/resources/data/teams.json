@@ -383,15 +383,15 @@
   { "id": 2150, "name": "Eintracht Frankfurt", "code": "EFR", "score": 78, "confederation": null, "league": "Bundesliga (ALE 1)", "image": "logos/ale_frankfurt.png" },
   { "id": 2151, "name": "Friburgo", "code": "FRI", "score": 77, "confederation": null, "league": "Bundesliga (ALE 1)", "image": "logos/ale_friburgo.png" },
   { "id": 2152, "name": "Hamburgo", "code": "HAM", "score": 77, "confederation": null, "league": "Bundesliga (ALE 1)", "image": "logos/ale_hamburgo.png" },
-  { "id": 2153, "name": "Heidenheim", "code": "HEI", "score": 75, "confederation": null, "league": "Bundesliga (ALE 1)", "image": "logos/ale_heidenheim.png" },
+  { "id": 2153, "name": "Heidenheim", "code": "HEI", "score": 75, "confederation": null, "league": "Sin competencia", "image": "logos/ale_heidenheim.png" },
   { "id": 2154, "name": "Hoffenheim", "code": "HOF", "score": 78, "confederation": null, "league": "Bundesliga (ALE 1)", "image": "logos/ale_hoffenheim.png" },
   { "id": 2155, "name": "Mainz 05", "code": "MAI", "score": 77, "confederation": null, "league": "Bundesliga (ALE 1)", "image": "logos/ale_mainz.png" },
   { "id": 2156, "name": "RB Leipzig", "code": "RBL", "score": 81, "confederation": null, "league": "Bundesliga (ALE 1)", "image": "logos/ale_leipzig.png" },
-  { "id": 2157, "name": "San Pauli", "code": "SPL", "score": 74, "confederation": null, "league": "Bundesliga (ALE 1)", "image": "logos/ale_san pauli.png" },
+  { "id": 2157, "name": "San Pauli", "code": "SPL", "score": 74, "confederation": null, "league": "Sin competencia", "image": "logos/ale_san pauli.png" },
   { "id": 2158, "name": "Stuttgart", "code": "STU", "score": 78, "confederation": null, "league": "Bundesliga (ALE 1)", "image": "logos/ale_stuttgart.png" },
   { "id": 2159, "name": "Unión Berlín", "code": "BER", "score": 77, "confederation": null, "league": "Bundesliga (ALE 1)", "image": "logos/ale_u berlin.png" },
   { "id": 2160, "name": "Werder Bremen", "code": "BRE", "score": 76, "confederation": null, "league": "Bundesliga (ALE 1)", "image": "logos/ale_bremen.png" },
-  { "id": 2161, "name": "Wolfsburgo", "code": "WOL", "score": 78, "confederation": null, "league": "Bundesliga (ALE 1)", "image": "logos/ale_wolfsburgo.png" },
+  { "id": 2161, "name": "Wolfsburgo", "code": "WOL", "score": 75, "confederation": null, "league": "Sin competencia", "image": "logos/ale_wolfsburgo.png" },
   { "id": 2162, "name": "Atalanta", "code": "ATA", "score": 82, "confederation": null, "league": "Serie A (ITA 1)", "image": "logos/ita_atalanta.png" },
   { "id": 2163, "name": "Bologna", "code": "BOL", "score": 79, "confederation": null, "league": "Serie A (ITA 1)", "image": "logos/ita_bologna.png" },
   { "id": 2164, "name": "Cagliari", "code": "CAG", "score": 76, "confederation": null, "league": "Serie A (ITA 1)", "image": "logos/ita_cagliari.png" },
@@ -853,5 +853,8 @@
   { "id": 2640, "name": "Londrina Esporte Clube", "code": "LON", "score": 68, "confederation": null, "league": "Brasileirão Serie B (BRA 2)", "image": "logos/bra_londrina.png" },
   { "id": 2641, "name": "Náutico Capibaribe", "code": "NAU", "score": 70, "confederation": null, "league": "Brasileirão Serie B (BRA 2)", "image": "logos/bra_nautico.png" },
   { "id": 2642, "name": "Ponte Preta", "code": "PPR", "score": 66, "confederation": null, "league": "Brasileirão Serie B (BRA 2)", "image": "logos/bra_ponte preta.png" },
-  { "id": 2643, "name": "São Bernardo", "code": "SBE", "score": 71, "confederation": null, "league": "Brasileirão Serie B (BRA 2)", "image": "logos/bra_sao bernardo.png" }
+  { "id": 2643, "name": "São Bernardo", "code": "SBE", "score": 71, "confederation": null, "league": "Brasileirão Serie B (BRA 2)", "image": "logos/bra_sao bernardo.png" },
+  { "id": 2644, "name": "Schalke 04", "code": "SCH", "score": 76, "confederation": null, "league": "Bundesliga (ALE 1)", "image": "logos/ale_schalke 04.png" },
+  { "id": 2645, "name": "SV Elversberg", "code": "ELV", "score": 74, "confederation": null, "league": "Bundesliga (ALE 1)", "image": "logos/ale_elversberg.png" },
+  { "id": 2646, "name": "Paderborn 07", "code": "PAD", "score": 74, "confederation": null, "league": "Bundesliga (ALE 1)", "image": "logos/ale_paderborn.png" }
 ]
