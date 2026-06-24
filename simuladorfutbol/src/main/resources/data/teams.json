@@ -858,6 +858,6 @@
   { "id": 2645, "name": "SV Elversberg", "code": "ELV", "score": 74, "confederation": null, "league": "Bundesliga (ALE 1)", "image": "logos/ale_elversberg.png" },
   { "id": 2646, "name": "Paderborn 07", "code": "PAD", "score": 74, "confederation": null, "league": "Bundesliga (ALE 1)", "image": "logos/ale_paderborn.png" },
   { "id": 2647, "name": "Real Potosí", "code": "RPO", "score": 63, "confederation": null, "league": "División Profesional (BOL 1)", "image": "logos/bol_real potosi.png" },
-  { "id": 2648, "name": "Universidad de Concepción", "code": "UCO", "score": 70, "confederation": null, "league": "Primera División (CHI 1)", "image": "logos/chi_u concepcion.png" },
-  { "id": 2649, "name": "Deportes Concepción", "code": "DCO", "score": 70, "confederation": null, "league": "Primera División (CHI 1)", "image": "logos/chi_dep concepcion.png" }
+  { "id": 2648, "name": "Universidad de Concepción", "code": "UCO", "score": 68, "confederation": null, "league": "Primera División (CHI 1)", "image": "logos/chi_u concepcion.png" },
+  { "id": 2649, "name": "Deportes Concepción", "code": "DCO", "score": 68, "confederation": null, "league": "Primera División (CHI 1)", "image": "logos/chi_dep concepcion.png" }
 ]
