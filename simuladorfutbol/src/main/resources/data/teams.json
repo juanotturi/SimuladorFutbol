@@ -750,7 +750,7 @@
   { "id": 2532, "name": "Real Oruro", "code": "ROR", "score": 64, "confederation": null, "league": "División Profesional (BOL 1)", "image": "logos/bol_r oruro.png" },
   { "id": 2533, "name": "Real Tomayapo", "code": "RTO", "score": 65, "confederation": null, "league": "División Profesional (BOL 1)", "image": "logos/bol_r tomayapo.png" },
   { "id": 2534, "name": "Independiente Petrolero", "code": "IPE", "score": 65, "confederation": null, "league": "División Profesional (BOL 1)", "image": "logos/bol_ind petrolero.png" },
-  { "id": 2535, "name": "Jorge Wilstermann", "code": "JWI", "score": 63, "confederation": null, "league": "División Profesional (BOL 1)", "image": "logos/bol_jorge wils.png" },
+  { "id": 2535, "name": "Jorge Wilstermann", "code": "JWI", "score": 63, "confederation": null, "league": "Sin competencia", "image": "logos/bol_jorge wils.png" },
   { "id": 2536, "name": "Aurora", "code": "AUR", "score": 60, "confederation": null, "league": "División Profesional (BOL 1)", "image": "logos/bol_aurora.png" },
   { "id": 2537, "name": "Independiente del Valle", "code": "IDV", "score": 73, "confederation": null, "league": "Serie A (ECU 1)", "image": "logos/ecu_idv.png" },
   { "id": 2538, "name": "Liga de Quito", "code": "LDU", "score": 74, "confederation": null, "league": "Serie A (ECU 1)", "image": "logos/ecu_ldu.png" },
@@ -856,5 +856,6 @@
   { "id": 2643, "name": "São Bernardo", "code": "SBE", "score": 71, "confederation": null, "league": "Brasileirão Serie B (BRA 2)", "image": "logos/bra_sao bernardo.png" },
   { "id": 2644, "name": "Schalke 04", "code": "SCH", "score": 76, "confederation": null, "league": "Bundesliga (ALE 1)", "image": "logos/ale_schalke 04.png" },
   { "id": 2645, "name": "SV Elversberg", "code": "ELV", "score": 74, "confederation": null, "league": "Bundesliga (ALE 1)", "image": "logos/ale_elversberg.png" },
-  { "id": 2646, "name": "Paderborn 07", "code": "PAD", "score": 74, "confederation": null, "league": "Bundesliga (ALE 1)", "image": "logos/ale_paderborn.png" }
+  { "id": 2646, "name": "Paderborn 07", "code": "PAD", "score": 74, "confederation": null, "league": "Bundesliga (ALE 1)", "image": "logos/ale_paderborn.png" },
+  { "id": 2647, "name": "Real Potosí", "code": "RPO", "score": 63, "confederation": null, "league": "División Profesional (BOL 1)", "image": "logos/bol_real potosi.png" }
 ]
