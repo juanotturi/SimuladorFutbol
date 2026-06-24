@@ -722,8 +722,8 @@
   { "id": 2504, "name": "Everton", "code": "EVE", "score": 71, "confederation": null, "league": "Primera División (CHI 1)", "image": "logos/chi_everton.png" },
   { "id": 2505, "name": "Deportes La Serena", "code": "DLS", "score": 68, "confederation": null, "league": "Primera División (CHI 1)", "image": "logos/chi_dep la serena.png" },
   { "id": 2506, "name": "Deportes Limache", "code": "DLI", "score": 69, "confederation": null, "league": "Primera División (CHI 1)", "image": "logos/chi_dep limache.png" },
-  { "id": 2507, "name": "Unión Española", "code": "UES", "score": 70, "confederation": null, "league": "Primera División (CHI 1)", "image": "logos/chi_u espaniola.png" },
-  { "id": 2508, "name": "Deportes Iquique", "code": "DIQ", "score": 70, "confederation": null, "league": "Primera División (CHI 1)", "image": "logos/chi_dep iquique.png" },
+  { "id": 2507, "name": "Unión Española", "code": "UES", "score": 68, "confederation": null, "league": "Sin competencia", "image": "logos/chi_u espaniola.png" },
+  { "id": 2508, "name": "Deportes Iquique", "code": "DIQ", "score": 68, "confederation": null, "league": "Sin competencia", "image": "logos/chi_dep iquique.png" },
   { "id": 2509, "name": "Libertad", "code": "LIB", "score": 72, "confederation": null, "league": "Primera División (PAR 1)", "image": "logos/par_libertad.png" },
   { "id": 2510, "name": "Cerro Porteño", "code": "CPO", "score": 73, "confederation": null, "league": "Primera División (PAR 1)", "image": "logos/par_cerro portenio.png" },
   { "id": 2511, "name": "Guaraní", "code": "GUA", "score": 71, "confederation": null, "league": "Primera División (PAR 1)", "image": "logos/par_guarani.png" },
@@ -857,5 +857,7 @@
   { "id": 2644, "name": "Schalke 04", "code": "SCH", "score": 76, "confederation": null, "league": "Bundesliga (ALE 1)", "image": "logos/ale_schalke 04.png" },
   { "id": 2645, "name": "SV Elversberg", "code": "ELV", "score": 74, "confederation": null, "league": "Bundesliga (ALE 1)", "image": "logos/ale_elversberg.png" },
   { "id": 2646, "name": "Paderborn 07", "code": "PAD", "score": 74, "confederation": null, "league": "Bundesliga (ALE 1)", "image": "logos/ale_paderborn.png" },
-  { "id": 2647, "name": "Real Potosí", "code": "RPO", "score": 63, "confederation": null, "league": "División Profesional (BOL 1)", "image": "logos/bol_real potosi.png" }
+  { "id": 2647, "name": "Real Potosí", "code": "RPO", "score": 63, "confederation": null, "league": "División Profesional (BOL 1)", "image": "logos/bol_real potosi.png" },
+  { "id": 2648, "name": "Universidad de Concepción", "code": "UCO", "score": 70, "confederation": null, "league": "Primera División (CHI 1)", "image": "logos/chi_u concepcion.png" },
+  { "id": 2649, "name": "Deportes Concepción", "code": "DCO", "score": 70, "confederation": null, "league": "Primera División (CHI 1)", "image": "logos/chi_dep concepcion.png" }
 ]
