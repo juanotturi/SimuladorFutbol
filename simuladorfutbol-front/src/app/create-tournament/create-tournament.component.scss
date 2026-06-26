@@ -1,0 +1,156 @@
+.create-tournament-container {
+  display: flex;
+  gap: 24px;
+  margin-top: 16px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.selectors-column {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1 1 280px;
+  max-width: 360px;
+  min-width: 0;
+}
+
+.selectors-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.section-header h2,
+.section-header h3 {
+  margin: 0;
+}
+
+.section-header p {
+  margin: 8px 0 0;
+  color: #475569;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.team-selector {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  padding: 16px 16px;
+  border-radius: 12px;
+  background-color: #f8fafc;
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.team-selector label,
+.form-row label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.95rem;
+  color: #0f172a;
+  width: 100%;
+  min-width: 0;
+}
+
+.team-selector select,
+.team-selector input,
+.form-row input {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  font-size: 0.95rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background-color: white;
+}
+
+.form-row {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+}
+
+.checkbox-group label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.checkbox-group input {
+  width: auto;
+  margin: 0;
+}
+
+.input-hint,
+.input-error {
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+.input-hint {
+  color: #475569;
+}
+
+.input-error {
+  color: #b91c1c;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.summary-box {
+  margin-top: 12px;
+  padding: 18px;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
+  background-color: #ffffff;
+  color: #334155;
+  min-height: 140px;
+}
+
+.summary-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.summary-list li {
+  font-size: 0.95rem;
+}
+
+.details-column {
+  flex: 2 1 360px;
+  min-width: 280px;
+}
+
+@media (max-width: 720px) {
+  .create-tournament-container {
+    flex-direction: column;
+  }
+
+  .details-column,
+  .selectors-column {
+    max-width: 100%;
+  }
+}

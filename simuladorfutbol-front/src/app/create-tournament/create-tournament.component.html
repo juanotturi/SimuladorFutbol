@@ -1,3 +1,77 @@
-<div class="glass-container">
-  <h2>Próximamente...</h2>
+<div class="glass-container create-tournament-container">
+  <div class="selectors-column">
+    <div class="selectors-content">
+      <div class="section-header">
+        <h3>Crear Torneo</h3>
+        <p>Seleccione el formato de torneo.</p>
+      </div>
+
+      <div class="team-selector">
+        <label>
+          Tipo de torneo
+          <select [(ngModel)]="selectedTournamentType" (ngModelChange)="onTournamentTypeChange()">
+            <option [ngValue]="null">-- Selecciona un tipo --</option>
+            <option *ngFor="let type of tournamentTypes" [value]="type">{{ type }}</option>
+          </select>
+        </label>
+
+        <ng-container *ngIf="selectedTournamentType">
+          <label>
+            Cantidad de equipos
+            <input type="number" min="2" [(ngModel)]="teamCount" (ngModelChange)="onTeamCountChange()" />
+          </label>
+          <p class="input-error" *ngIf="isTeamCountInvalid">La cantidad de participantes debe ser al menos 2.</p>
+
+          <div class="form-row" *ngIf="showGroupFields">
+            <label>
+              Cantidad de grupos
+              <input type="number" min="1" [max]="maxGroupsAllowed || null" [(ngModel)]="groupCount" [disabled]="teamCount == null" />
+            </label>
+            <p class="input-hint" *ngIf="maxGroupsAllowed !== null">Máximo de grupos: {{ maxGroupsAllowed }}</p>
+            <p class="input-error" *ngIf="isGroupCountInvalid">La cantidad de grupos no puede ser mayor al máximo permitido.</p>
+          </div>
+
+          <div class="form-row" *ngIf="showGroupFields">
+            <label>
+              Equipos en play-off
+              <input type="number" min="1" [max]="teamCount || null" [(ngModel)]="playoffTeams" [disabled]="teamCount == null" />
+            </label>
+            <p class="input-error" *ngIf="isPlayoffTeamsInvalid">No pueden pasar más equipos a play-off que los participantes totales.</p>
+            <p class="input-error" *ngIf="isPlayoffTeamsTooSmall">Debe clasificar al menos un equipo por grupo.</p>
+          </div>
+
+          <div class="checkbox-group">
+            <label>
+              <input type="checkbox" [(ngModel)]="returnLegs" />
+              Ida y vuelta
+            </label>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+  <div class="details-column">
+    <div class="section-header">
+      <h3>Resumen de configuración</h3>
+      <p>Revisa los parámetros antes de avanzar a la generación de la plantilla.</p>
+    </div>
+
+    <div class="summary-box">
+      <ng-container *ngIf="selectedTournamentType; else noSelection">
+        <ul class="summary-list">
+          <li><strong>Formato:</strong> {{ selectedTournamentType }}</li>
+          <li *ngIf="teamCount !== null"><strong>Equipos:</strong> {{ teamCount }}</li>
+          <li *ngIf="showGroupFields && groupCount !== null"><strong>Grupos:</strong> {{ groupCount }}</li>
+          <li *ngIf="showGroupFields && teamsPerGroupText !== null"><strong>Equipos por grupo:</strong> {{ teamsPerGroupText }}</li>
+          <li *ngIf="showGroupFields && playoffTeams !== null"><strong>Equipos en play-off:</strong> {{ playoffTeams }}</li>
+          <li *ngIf="groupPlayoffExplanation !== null"><strong>Clasificación a play-off:</strong> {{ groupPlayoffExplanation }}</li>
+          <li><strong>Partidos:</strong> {{ returnLegs ? 'Ida y vuelta' : 'Solo ida' }}</li>
+        </ul>
+      </ng-container>
+      <ng-template #noSelection>
+        <p>Selecciona un formato para ver las opciones de configuración.</p>
+      </ng-template>
+    </div>
+  </div>
 </div>
