@@ -65,7 +65,7 @@
         <tbody>
           <tr *ngFor="let team of filteredTeams">
             <td class="flag-cell">
-              <img *ngIf="team.image" [src]="assetsBaseUrl + '/' + team.image" [alt]="team.name" class="flag-icon" />
+              <img *ngIf="team.image" [src]="assetsBaseUrl + '/' + team.image" [alt]="team.name" class="flag-icon" loading="lazy" decoding="async" />
             </td>
             <td>{{ team.name }} ({{ team.code }})</td>
             <td *ngIf="selectedTab === 'SELECCIONES'">{{ team.confederation }}</td>
