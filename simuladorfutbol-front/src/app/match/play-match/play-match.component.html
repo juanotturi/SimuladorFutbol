@@ -86,7 +86,8 @@
       <div class="play-grid">
         <div class="team-display team-a">
           <img [src]="selectedTeamA?.image ? assetsBaseUrl + '/' + selectedTeamA?.image : placeholderImage"
-               alt="{{ selectedTeamA?.name || 'Equipo 1' }}" class="flag-large">
+               alt="{{ selectedTeamA?.name || 'Equipo 1' }}" class="flag-large"
+               loading="lazy" decoding="async">
           <div>{{ selectedTeamA?.name || 'Equipo 1' }}</div>
           <div *ngIf="penaltyVisible" class="penalty-row">
             <span *ngFor="let r of getPenaltySlots(0).slice(-5)">{{ r }}</span>
@@ -109,7 +110,8 @@
 
         <div class="team-display team-b">
           <img [src]="selectedTeamB?.image ? assetsBaseUrl + '/' + selectedTeamB?.image : placeholderImage"
-               alt="{{ selectedTeamB?.name || 'Equipo 2' }}" class="flag-large">
+               alt="{{ selectedTeamB?.name || 'Equipo 2' }}" class="flag-large"
+               loading="lazy" decoding="async">
           <div>{{ selectedTeamB?.name || 'Equipo 2' }}</div>
           <div *ngIf="penaltyVisible" class="penalty-row">
             <span *ngFor="let r of getPenaltySlots(1).slice(-5)">{{ r }}</span>
