@@ -2,7 +2,7 @@
   <div class="selectors-column">
     <div class="selectors-content">
       <div class="section-header">
-        <h3>Crear Torneo</h3>
+        <h3>Crear torneo</h3>
         <p>Seleccione el formato de torneo.</p>
       </div>
 
@@ -46,6 +46,27 @@
               Ida y vuelta
             </label>
           </div>
+
+          <div class="tie-break-selector" *ngIf="showTieBreakSelector">
+            <div class="tie-break-options">
+              <button
+                type="button"
+                class="tie-break-option"
+                [class.active]="tieBreakMethod === 'olympic'"
+                (click)="selectTieBreakMethod('olympic')"
+              >
+                Desempate Olímpico
+              </button>
+              <button
+                type="button"
+                class="tie-break-option"
+                [class.active]="tieBreakMethod === 'goalDifference'"
+                (click)="selectTieBreakMethod('goalDifference')"
+              >
+                Diferencia de Gol
+              </button>
+            </div>
+          </div>
         </ng-container>
       </div>
     </div>
@@ -66,6 +87,7 @@
           <li *ngIf="showGroupFields && teamsPerGroupText !== null"><strong>Equipos por grupo:</strong> {{ teamsPerGroupText }}</li>
           <li *ngIf="showGroupFields && playoffTeams !== null"><strong>Equipos en play-off:</strong> {{ playoffTeams }}</li>
           <li *ngIf="groupPlayoffExplanation !== null"><strong>Clasificación a play-off:</strong> {{ groupPlayoffExplanation }}</li>
+          <li *ngIf="tieBreakMethodLabel !== null"><strong>Desempate:</strong> {{ tieBreakMethodLabel }}</li>
           <li><strong>Partidos:</strong> {{ returnLegs ? 'Ida y vuelta' : 'Solo ida' }}</li>
         </ul>
       </ng-container>

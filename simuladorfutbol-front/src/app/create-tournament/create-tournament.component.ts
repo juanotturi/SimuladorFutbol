@@ -17,6 +17,7 @@ export class CreateTournamentComponent {
   groupCount: number | null = null;
   playoffTeams: number | null = null;
   returnLegs = false;
+  tieBreakMethod: 'olympic' | 'goalDifference' | null = null;
 
   get isLeagueType(): boolean {
     return this.selectedTournamentType === 'Liga';
@@ -32,6 +33,20 @@ export class CreateTournamentComponent {
 
   get showGroupFields(): boolean {
     return this.isGroupsType;
+  }
+
+  get showTieBreakSelector(): boolean {
+    return this.isLeagueType || this.isGroupsType;
+  }
+
+  get tieBreakMethodLabel(): string | null {
+    if (this.tieBreakMethod === 'goalDifference') {
+      return 'Diferencia de Gol';
+    }
+    if (this.tieBreakMethod === 'olympic') {
+      return 'Desempate Olímpico';
+    }
+    return null;
   }
 
   get maxGroupsAllowed(): number | null {
@@ -124,6 +139,11 @@ export class CreateTournamentComponent {
     this.groupCount = null;
     this.playoffTeams = null;
     this.returnLegs = false;
+    this.tieBreakMethod = this.showTieBreakSelector ? 'olympic' : null;
+  }
+
+  selectTieBreakMethod(method: 'olympic' | 'goalDifference') {
+    this.tieBreakMethod = method;
   }
 
   onTeamCountChange() {

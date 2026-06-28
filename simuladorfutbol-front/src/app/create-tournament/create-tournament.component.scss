@@ -40,7 +40,7 @@
   border-radius: 12px;
   background-color: #f8fafc;
   display: grid;
-  gap: 14px;
+  gap: 10px;
   min-width: 0;
   box-sizing: border-box;
 }
@@ -57,8 +57,8 @@
 }
 
 .team-selector select,
-.team-selector input,
-.form-row input {
+.team-selector input:not([type="checkbox"]),
+.form-row input:not([type="checkbox"]) {
   width: 100%;
   max-width: 100%;
   min-width: 0;
@@ -68,20 +68,14 @@
   border: 1px solid #cbd5e1;
   border-radius: 8px;
   background-color: white;
+  display: block;
+  min-height: 42px;
+  line-height: 1.4;
 }
 
-.form-row {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.checkbox-group {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 0;
+.checkbox-group input[type="checkbox"] {
+  width: auto;
+  margin: 0;
 }
 
 .checkbox-group label {
@@ -92,9 +86,44 @@
   margin: 0;
 }
 
-.checkbox-group input {
-  width: auto;
+.checkbox-group {
+  padding: 2px 0;
   margin: 0;
+}
+
+.tie-break-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 2px;
+}
+
+.tie-break-label {
+  font-size: 0.95rem;
+  color: #0f172a;
+}
+
+.tie-break-options {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tie-break-option {
+  border: 1px solid #cbd5e1;
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: white;
+  color: #0f172a;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.tie-break-option.active {
+  background: #2563eb;
+  color: white;
+  border-color: #2563eb;
 }
 
 .input-hint,
@@ -150,7 +179,9 @@
   }
 
   .details-column,
-  .selectors-column {
+  .selectors-column,
+  .team-selector select {
     max-width: 100%;
+    width: 100%;
   }
 }
