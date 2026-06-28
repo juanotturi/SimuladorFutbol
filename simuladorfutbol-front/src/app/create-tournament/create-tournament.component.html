@@ -3,7 +3,7 @@
     <div class="selectors-content">
       <div class="section-header">
         <h3>Crear torneo</h3>
-        <p>Seleccione el formato de torneo.</p>
+        <p>Seleccione el formato de torneo</p>
       </div>
 
       <div class="team-selector">
@@ -20,7 +20,7 @@
             Cantidad de equipos
             <input type="number" min="2" [(ngModel)]="teamCount" (ngModelChange)="onTeamCountChange()" />
           </label>
-          <p class="input-error" *ngIf="isTeamCountInvalid">La cantidad de participantes debe ser al menos 2.</p>
+          <p class="input-error" *ngIf="isTeamCountInvalid">La cantidad de participantes debe ser al menos 2</p>
 
           <div class="form-row" *ngIf="showGroupFields">
             <label>
@@ -28,7 +28,7 @@
               <input type="number" min="1" [max]="maxGroupsAllowed || null" [(ngModel)]="groupCount" [disabled]="teamCount == null" />
             </label>
             <p class="input-hint" *ngIf="maxGroupsAllowed !== null">Máximo de grupos: {{ maxGroupsAllowed }}</p>
-            <p class="input-error" *ngIf="isGroupCountInvalid">La cantidad de grupos no puede ser mayor al máximo permitido.</p>
+            <p class="input-error" *ngIf="isGroupCountInvalid">La cantidad de grupos no puede ser mayor al máximo permitido</p>
           </div>
 
           <div class="form-row" *ngIf="showGroupFields">
@@ -36,8 +36,8 @@
               Equipos en play-off
               <input type="number" min="1" [max]="teamCount || null" [(ngModel)]="playoffTeams" [disabled]="teamCount == null" />
             </label>
-            <p class="input-error" *ngIf="isPlayoffTeamsInvalid">No pueden pasar más equipos a play-off que los participantes totales.</p>
-            <p class="input-error" *ngIf="isPlayoffTeamsTooSmall">Debe clasificar al menos un equipo por grupo.</p>
+            <p class="input-error" *ngIf="isPlayoffTeamsInvalid">No pueden pasar más equipos a play-off que los participantes totales</p>
+            <p class="input-error" *ngIf="isPlayoffTeamsTooSmall">Debe clasificar al menos un equipo por grupo</p>
           </div>
 
           <div class="checkbox-group">
@@ -75,7 +75,7 @@
   <div class="details-column">
     <div class="section-header">
       <h3>Resumen de configuración</h3>
-      <p>Revisa los parámetros antes de avanzar a la generación de la plantilla.</p>
+      <p>Revisa los parámetros antes de avanzar a la generación de la plantilla</p>
     </div>
 
     <div class="summary-box">
@@ -93,7 +93,7 @@
         <button type="button" class="summary-action-button">Ir a selección de equipos</button>
       </ng-container>
       <ng-template #noSelection>
-        <p>Selecciona un formato para ver las opciones de configuración.</p>
+        <p>Selecciona un formato para ver las opciones de configuración</p>
       </ng-template>
     </div>
   </div>
