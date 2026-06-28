@@ -202,13 +202,20 @@
 @media (max-width: 720px) {
   .create-tournament-container {
     flex-direction: column;
+    gap: 12px;
   }
 
   .details-column,
   .selectors-column,
-  .team-selector select {
+  .team-selector select,
+  .summary-box {
     max-width: 100%;
     width: 100%;
+  }
+
+  .details-column,
+  .selectors-column {
+    min-width: 0;
   }
 
   .summary-action-button {
