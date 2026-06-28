@@ -25,18 +25,22 @@
           <div class="form-row" *ngIf="showGroupFields">
             <label>
               Cantidad de grupos
-              <input type="number" min="1" [max]="maxGroupsAllowed || null" [(ngModel)]="groupCount" [disabled]="teamCount == null" />
+              <input type="number" min="1" [max]="maxGroupsAllowed || null" [(ngModel)]="groupCount"
+                [disabled]="teamCount == null" />
             </label>
             <p class="input-hint" *ngIf="maxGroupsAllowed !== null">Máximo de grupos: {{ maxGroupsAllowed }}</p>
-            <p class="input-error" *ngIf="isGroupCountInvalid">La cantidad de grupos no puede ser mayor al máximo permitido</p>
+            <p class="input-error" *ngIf="isGroupCountInvalid">La cantidad de grupos no puede ser mayor al máximo
+              permitido</p>
           </div>
 
           <div class="form-row" *ngIf="showGroupFields">
             <label>
               Equipos en play-off
-              <input type="number" min="1" [max]="teamCount || null" [(ngModel)]="playoffTeams" [disabled]="teamCount == null" />
+              <input type="number" min="1" [max]="teamCount || null" [(ngModel)]="playoffTeams"
+                [disabled]="teamCount == null" />
             </label>
-            <p class="input-error" *ngIf="isPlayoffTeamsInvalid">No pueden pasar más equipos a play-off que los participantes totales</p>
+            <p class="input-error" *ngIf="isPlayoffTeamsInvalid">No pueden pasar más equipos a play-off que los
+              participantes totales</p>
             <p class="input-error" *ngIf="isPlayoffTeamsTooSmall">Debe clasificar al menos un equipo por grupo</p>
           </div>
 
@@ -49,20 +53,12 @@
 
           <div class="tie-break-selector" *ngIf="showTieBreakSelector">
             <div class="tie-break-options">
-              <button
-                type="button"
-                class="tie-break-option"
-                [class.active]="tieBreakMethod === 'olympic'"
-                (click)="selectTieBreakMethod('olympic')"
-              >
+              <button type="button" class="tie-break-option" [class.active]="tieBreakMethod === 'olympic'"
+                (click)="selectTieBreakMethod('olympic')">
                 Desempate Olímpico
               </button>
-              <button
-                type="button"
-                class="tie-break-option"
-                [class.active]="tieBreakMethod === 'goalDifference'"
-                (click)="selectTieBreakMethod('goalDifference')"
-              >
+              <button type="button" class="tie-break-option" [class.active]="tieBreakMethod === 'goalDifference'"
+                (click)="selectTieBreakMethod('goalDifference')">
                 Diferencia de Gol
               </button>
             </div>
@@ -84,9 +80,12 @@
           <li><strong>Formato:</strong> {{ selectedTournamentType }}</li>
           <li *ngIf="teamCount !== null"><strong>Equipos:</strong> {{ teamCount }}</li>
           <li *ngIf="showGroupFields && groupCount !== null"><strong>Grupos:</strong> {{ groupCount }}</li>
-          <li *ngIf="showGroupFields && teamsPerGroupText !== null"><strong>Equipos por grupo:</strong> {{ teamsPerGroupText }}</li>
-          <li *ngIf="showGroupFields && playoffTeams !== null"><strong>Equipos en play-off:</strong> {{ playoffTeams }}</li>
-          <li *ngIf="groupPlayoffExplanation !== null"><strong>Clasificación a play-off:</strong> {{ groupPlayoffExplanation }}</li>
+          <li *ngIf="showGroupFields && teamsPerGroupText !== null"><strong>Equipos por grupo:</strong> {{
+            teamsPerGroupText }}</li>
+          <li *ngIf="showGroupFields && playoffTeams !== null"><strong>Equipos en play-off:</strong> {{ playoffTeams }}
+          </li>
+          <li *ngIf="groupPlayoffExplanation !== null"><strong>Clasificación a play-off:</strong> {{
+            groupPlayoffExplanation }}</li>
           <li *ngIf="tieBreakMethodLabel !== null"><strong>Desempate:</strong> {{ tieBreakMethodLabel }}</li>
           <li><strong>Partidos:</strong> {{ returnLegs ? 'Ida y vuelta' : 'Solo ida' }}</li>
         </ul>

@@ -225,24 +225,20 @@
     margin: 14px auto 0;
   }
 
-  /* Reduce vertical spacing between section header and summary on small screens */
   .section-header p {
     margin: 4px 0 0;
   }
 
-  /* Make the summary box sit closer to the section header */
   .summary-box {
     margin-top: 6px;
     padding: 12px 14px;
   }
 
-  /* Prevent columns from stretching vertically when stacked (removes empty space) */
   .selectors-column,
   .details-column {
     flex: 0 1 auto;
   }
 
-  /* Slightly tighten gaps inside selectors on mobile */
   .selectors-content {
     gap: 6px;
   }
