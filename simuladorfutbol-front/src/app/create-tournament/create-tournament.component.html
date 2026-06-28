@@ -90,6 +90,7 @@
           <li *ngIf="tieBreakMethodLabel !== null"><strong>Desempate:</strong> {{ tieBreakMethodLabel }}</li>
           <li><strong>Partidos:</strong> {{ returnLegs ? 'Ida y vuelta' : 'Solo ida' }}</li>
         </ul>
+        <button type="button" class="summary-action-button">Ir a selección de equipos</button>
       </ng-container>
       <ng-template #noSelection>
         <p>Selecciona un formato para ver las opciones de configuración.</p>

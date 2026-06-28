@@ -168,6 +168,24 @@
   font-size: 0.95rem;
 }
 
+.summary-action-button {
+  display: inline-block;
+  margin: 14px 0 0 auto;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 10px;
+  background-color: #16a34a;
+  color: white;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.summary-action-button:hover {
+  background-color: #15803d;
+}
+
 .details-column {
   flex: 2 1 360px;
   min-width: 280px;
@@ -183,5 +201,10 @@
   .team-selector select {
     max-width: 100%;
     width: 100%;
+  }
+
+  .summary-action-button {
+    display: block;
+    margin: 14px auto 0;
   }
 }
