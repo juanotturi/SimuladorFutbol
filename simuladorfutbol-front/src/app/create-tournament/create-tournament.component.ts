@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-tournament',
@@ -134,12 +135,37 @@ export class CreateTournamentComponent {
     return `${base} por grupo`;
   }
 
+  constructor(private router: Router) {}
+
   onTournamentTypeChange() {
     this.teamCount = 2;
     this.groupCount = null;
     this.playoffTeams = null;
     this.returnLegs = false;
-    this.tieBreakMethod = this.showTieBreakSelector ? 'olympic' : null;
+    this.tieBreakMethod = this.showTieBreakSelector ? 'goalDifference' : null;
+  }
+
+  navigateToTeamSelection() {
+    if (!this.selectedTournamentType) {
+      return;
+    }
+
+    const queryParams: Record<string, string> = {
+      type: this.selectedTournamentType,
+      teamCount: String(this.teamCount ?? 2),
+    };
+
+    if (this.groupCount !== null) {
+      queryParams['groupCount'] = String(this.groupCount);
+    }
+    if (this.playoffTeams !== null) {
+      queryParams['playoffTeams'] = String(this.playoffTeams);
+    }
+    if (this.tieBreakMethod !== null) {
+      queryParams['tieBreak'] = this.tieBreakMethod;
+    }
+
+    this.router.navigate(['/team-selection'], { queryParams });
   }
 
   selectTieBreakMethod(method: 'olympic' | 'goalDifference') {

@@ -1,0 +1,100 @@
+<div class="team-selection-container glass-container">
+  <div class="selector-column">
+    <div class="section-header">
+      <h3>Seleccionar equipos</h3>
+      <p>Elige un equipo o agrega un grupo completo para rellenar la plantilla.</p>
+    </div>
+
+    <label>
+      Tipo:
+      <select [(ngModel)]="typeSelection">
+        <option [ngValue]="null">-- Tipo --</option>
+        <option value="SELECCION">Selección</option>
+        <option value="CLUB">Club</option>
+      </select>
+    </label>
+
+    <label>
+      Confederación / Liga:
+      <select [(ngModel)]="filterConfLeague" [disabled]="!typeSelection">
+        <option [ngValue]="null">-- Confederación/Liga --</option>
+        <option *ngFor="let option of getSecondLevelOptions(typeSelection)" [value]="option">{{ option }}</option>
+      </select>
+    </label>
+
+    <label>
+      Equipo:
+      <select [(ngModel)]="selectedTeam" [disabled]="!filterConfLeague">
+        <option [ngValue]="null">-- Selecciona un equipo --</option>
+        <option *ngFor="let team of filteredTeams" [ngValue]="team">
+          {{ team.name }} ({{ team.score }})
+        </option>
+      </select>
+    </label>
+
+    <button type="button" class="btn-primary" (click)="addSelectedTeam()" [disabled]="!selectedTeam || remainingSlots === 0">
+      Agregar equipo
+    </button>
+
+    <button type="button" class="btn-secondary" (click)="addGroupTeams()" [disabled]="!filterConfLeague || remainingSlots === 0">
+      Agregar todos los equipos del grupo
+    </button>
+  </div>
+
+  <div class="template-column">
+    <div class="section-header">
+      <h3>Plantilla</h3>
+      <p>Rellena los equipos según el formato seleccionado.</p>
+    </div>
+
+    <ng-container *ngIf="tournamentType === 'Liga'">
+      <div *ngFor="let slot of teamSlots" class="team-slot">
+        <span class="slot-index">{{ slot }}</span>
+        <span class="slot-name">{{ getSlotTeamName(slot) }}</span>
+        <button
+          *ngIf="selectedTeams[slot - 1]"
+          type="button"
+          class="remove-button slot-remove"
+          (click)="removeSelectedTeam(selectedTeams[slot - 1])"
+          aria-label="Eliminar equipo"
+        >
+          ×
+        </button>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="tournamentType === 'Play-off'">
+      <div *ngIf="byes > 0" class="bye-summary">
+        <strong>Byes:</strong> {{ byes }} equipos avanzan directo a la siguiente ronda
+      </div>
+      <div *ngFor="let round of mainDrawRounds; let i = index" class="round-block">
+        <h4>{{ round.label }}</h4>
+        <div class="round-slots">
+          <div class="round-slot" *ngFor="let slot of getRoundSlotNumbers(round.slots)">
+            Slot {{ slot }}
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="tournamentType === 'Grupos y Play-off'">
+      <div *ngFor="let group of groupAssignments; let groupIndex = index" class="group-block">
+        <h4>Grupo {{ groupIndex + 1 }}</h4>
+        <div class="group-slots">
+          <div class="group-slot" *ngFor="let slot of getGroupSlotNumbers(groupIndex)">
+            <span>{{ getGroupSlotTeamName(groupIndex, slot) }}</span>
+            <button
+              *ngIf="groupAssignments[groupIndex][slot - 1]"
+              type="button"
+              class="remove-button slot-remove"
+              (click)="removeSelectedTeam(groupAssignments[groupIndex][slot - 1])"
+              aria-label="Eliminar equipo"
+            >
+              ×
+            </button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

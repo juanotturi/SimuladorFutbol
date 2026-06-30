@@ -53,13 +53,13 @@
 
           <div class="tie-break-selector" *ngIf="showTieBreakSelector">
             <div class="tie-break-options">
-              <button type="button" class="tie-break-option" [class.active]="tieBreakMethod === 'olympic'"
-                (click)="selectTieBreakMethod('olympic')">
-                Desempate Olímpico
-              </button>
               <button type="button" class="tie-break-option" [class.active]="tieBreakMethod === 'goalDifference'"
                 (click)="selectTieBreakMethod('goalDifference')">
                 Diferencia de Gol
+              </button>
+              <button type="button" class="tie-break-option" [class.active]="tieBreakMethod === 'olympic'"
+                (click)="selectTieBreakMethod('olympic')">
+                Desempate Olímpico
               </button>
             </div>
           </div>
@@ -89,7 +89,10 @@
           <li *ngIf="tieBreakMethodLabel !== null"><strong>Desempate:</strong> {{ tieBreakMethodLabel }}</li>
           <li><strong>Partidos:</strong> {{ returnLegs ? 'Ida y vuelta' : 'Solo ida' }}</li>
         </ul>
-        <button type="button" class="summary-action-button">Ir a selección de equipos</button>
+        <button type="button" class="summary-action-button" (click)="navigateToTeamSelection()"
+          [disabled]="!selectedTournamentType || isTeamCountInvalid || isGroupCountInvalid || isPlayoffTeamsInvalid || isPlayoffTeamsTooSmall">
+          Ir a selección de equipos
+        </button>
       </ng-container>
       <ng-template #noSelection>
         <p>Selecciona un formato para ver las opciones de configuración</p>

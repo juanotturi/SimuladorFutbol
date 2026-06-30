@@ -1,0 +1,193 @@
+.team-selection-container {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 16px 4px 0;
+  align-items: flex-start;
+  width: calc(100% - 8px);
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.selector-column,
+.template-column {
+  min-width: 300px;
+  background: #f8fafc;
+  border: 1px solid #d1d5db;
+  border-radius: 18px;
+  padding: 20px;
+  display: grid;
+  gap: 14px;
+}
+
+.selector-column {
+  flex: 0 0 460px;
+  max-width: 480px;
+}
+
+.template-column {
+  flex: 1 1 520px;
+  min-width: 340px;
+}
+
+.section-header h3 {
+  margin: 0 0 8px;
+}
+
+.section-header p {
+  margin: 0 0 14px;
+  color: #475569;
+  font-size: 0.95rem;
+}
+
+.selector-column label,
+.template-column label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.95rem;
+}
+
+.selector-column select,
+.selector-column input,
+.template-column select,
+.template-column input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: white;
+}
+
+button.btn-primary,
+button.btn-secondary {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button.btn-primary {
+  background-color: #2563eb;
+  color: white;
+}
+
+button.btn-secondary {
+  background-color: #e2e8f0;
+  color: #0f172a;
+}
+
+
+.league-template,
+.bracket-template,
+.groups-template {
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.team-slot,
+.round-slot,
+.group-slot {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.team-slot .slot-index {
+  font-weight: 700;
+  min-width: 24px;
+}
+
+.team-slot .slot-name,
+.group-slot span {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.slot-remove {
+  border: none;
+  background: transparent;
+  color: #dc2626;
+  font-weight: 700;
+  cursor: pointer;
+  min-width: 24px;
+}
+
+.bracket-template .round-block,
+.groups-template .group-block {
+  margin-bottom: 16px;
+}
+
+.bye-summary {
+  margin-bottom: 12px;
+}
+
+.round-slots,
+.group-slots {
+  display: grid;
+  gap: 10px;
+}
+
+.selected-teams-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.selected-team {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: white;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+}
+
+.selected-team span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.remove-button {
+  border: none;
+  background: transparent;
+  color: #dc2626;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+@media (max-width: 720px) {
+  .team-selection-container {
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .selector-column,
+  .template-column {
+    width: 100%;
+    max-width: 100%;
+    min-width: auto;
+    box-sizing: border-box;
+    padding: 16px;
+    margin: 0;
+  }
+}

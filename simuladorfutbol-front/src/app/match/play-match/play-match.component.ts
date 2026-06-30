@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { Team } from '../../models/team.model';
+import { getSecondLevelOptions, filterTeamsByTypeAndGroup } from '../../models/team-utils';
 import { MatchResult } from '../../models/match-result.model';
 import { count, forkJoin, of } from 'rxjs';
 import { environment } from '../../../environments/environment';
@@ -144,9 +145,7 @@ export class PlayMatchComponent implements OnInit {
   }
 
   getSecondLevelOptions(type: 'SELECCION' | 'CLUB' | null): string[] {
-    if (type === 'SELECCION') return this.uniqueConfederations;
-    if (type === 'CLUB') return this.uniqueLeagues;
-    return [];
+    return getSecondLevelOptions(this.teams, type);
   }
 
   getCurrentPenaltyShooter(): string {
@@ -170,17 +169,11 @@ export class PlayMatchComponent implements OnInit {
   }
 
   get filteredTeamsA(): Team[] {
-    return this.teams
-      .filter(t => this.typeA === 'SELECCION' ? !t.league : (!!t.league && t.league !== 'Sin competencia'))
-      .filter(t => this.filterAConfLeague ? (t.confederation === this.filterAConfLeague || t.league === this.filterAConfLeague) : true)
-      .sort((a, b) => a.name.localeCompare(b.name));
+    return filterTeamsByTypeAndGroup(this.teams, this.typeA, this.filterAConfLeague);
   }
 
   get filteredTeamsB(): Team[] {
-    return this.teams
-      .filter(t => this.typeB === 'SELECCION' ? !t.league : (!!t.league && t.league !== 'Sin competencia'))
-      .filter(t => this.filterBConfLeague ? (t.confederation === this.filterBConfLeague || t.league === this.filterBConfLeague) : true)
-      .sort((a, b) => a.name.localeCompare(b.name));
+    return filterTeamsByTypeAndGroup(this.teams, this.typeB, this.filterBConfLeague);
   }
 
   playMatch() {

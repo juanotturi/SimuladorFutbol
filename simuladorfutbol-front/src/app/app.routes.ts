@@ -4,6 +4,7 @@ import { PlayMatchComponent } from './match/play-match/play-match.component';
 import { HomeComponent } from './home/home/home.component';
 import { PlayTournamentComponent } from './play-tournament/play-tournament.component';
 import { CreateTournamentComponent } from './create-tournament/create-tournament.component';
+import { TeamSelectionComponent } from './team-selection/team-selection.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -11,5 +12,6 @@ export const routes: Routes = [
   { path: 'teams', component: TeamsListComponent },
   { path: 'play-match', component: PlayMatchComponent },
   { path: 'play-tournament', component: PlayTournamentComponent },
-  { path: 'create-tournament', component: CreateTournamentComponent }
+  { path: 'create-tournament', component: CreateTournamentComponent },
+  { path: 'team-selection', component: TeamSelectionComponent }
 ];
