@@ -139,8 +139,8 @@ export class CreateTournamentComponent {
 
   onTournamentTypeChange() {
     this.teamCount = 2;
-    this.groupCount = null;
-    this.playoffTeams = null;
+    this.groupCount = this.showGroupFields ? 1 : null;
+    this.playoffTeams = this.showGroupFields ? 1 : null;
     this.returnLegs = false;
     this.tieBreakMethod = this.showTieBreakSelector ? 'goalDifference' : null;
   }
