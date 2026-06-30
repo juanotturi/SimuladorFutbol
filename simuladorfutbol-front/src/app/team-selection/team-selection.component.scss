@@ -1,9 +1,9 @@
 .team-selection-container {
   display: flex;
   justify-content: center;
-  gap: 16px;
+  gap: 12px;
   flex-wrap: wrap;
-  margin: 16px 4px 0;
+  margin: 12px 4px 0;
   align-items: flex-start;
   width: calc(100% - 8px);
   max-width: 100%;
@@ -16,27 +16,27 @@
   background: #f8fafc;
   border: 1px solid #d1d5db;
   border-radius: 18px;
-  padding: 20px;
+  padding: 14px;
   display: grid;
-  gap: 14px;
+  gap: 10px;
 }
 
 .selector-column {
-  flex: 0 0 460px;
-  max-width: 480px;
+  flex: 0 0 420px;
+  max-width: 460px;
 }
 
 .template-column {
-  flex: 1 1 520px;
-  min-width: 340px;
+  flex: 1 1 480px;
+  min-width: 320px;
 }
 
 .section-header h3 {
-  margin: 0 0 8px;
+  margin: 0 0 4px;
 }
 
 .section-header p {
-  margin: 0 0 14px;
+  margin: 0 0 6px;
   color: #475569;
   font-size: 0.95rem;
 }
@@ -45,7 +45,7 @@
 .template-column label {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
   font-size: 0.95rem;
 }
 
@@ -55,7 +55,7 @@
 .template-column input {
   width: 100%;
   box-sizing: border-box;
-  padding: 10px 12px;
+  padding: 8px 10px;
   border: 1px solid #cbd5e1;
   border-radius: 8px;
   background: white;
@@ -64,7 +64,7 @@
 button.btn-primary,
 button.btn-secondary {
   width: 100%;
-  padding: 12px 14px;
+  padding: 10px 12px;
   border-radius: 10px;
   border: none;
   font-weight: 600;
@@ -88,7 +88,7 @@ button.btn-secondary {
   background: white;
   border: 1px solid #d1d5db;
   border-radius: 12px;
-  padding: 16px;
+  padding: 12px;
 }
 
 .team-slot,
@@ -97,11 +97,11 @@ button.btn-secondary {
   background: #f8fafc;
   border: 1px solid #cbd5e1;
   border-radius: 10px;
-  padding: 10px;
+  padding: 8px;
   margin-bottom: 2px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 
 .team-slot .slot-index {
@@ -128,31 +128,37 @@ button.btn-secondary {
 
 .bracket-template .round-block,
 .groups-template .group-block {
-  margin-bottom: 16px;
+  margin-top: 4px;
+  margin-bottom: 10px;
+}
+
+.groups-template h4 {
+  margin-top: 0;
+  margin-bottom: 4px;
 }
 
 .bye-summary {
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 .round-slots,
 .group-slots {
   display: grid;
-  gap: 10px;
+  gap: 8px;
 }
 
 .selected-teams-list {
   display: grid;
-  gap: 8px;
-  margin-top: 10px;
+  gap: 6px;
+  margin-top: 8px;
 }
 
 .selected-team {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 10px;
-  padding: 10px 12px;
+  gap: 8px;
+  padding: 8px 10px;
   background: white;
   border: 1px solid #cbd5e1;
   border-radius: 10px;

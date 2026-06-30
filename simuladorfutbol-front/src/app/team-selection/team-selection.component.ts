@@ -5,6 +5,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ApiService } from '../services/api.service';
 import { Team } from '../models/team.model';
 import { getSecondLevelOptions, filterTeamsByTypeAndGroup } from '../models/team-utils';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-team-selection',
@@ -27,6 +28,7 @@ export class TeamSelectionComponent implements OnInit {
   filterConfLeague: string | null = null;
   selectedTeam?: Team;
   selectedTeams: Team[] = [];
+  assetsBaseUrl = environment.assetsBaseUrl;
 
   constructor(
     private apiService: ApiService,
