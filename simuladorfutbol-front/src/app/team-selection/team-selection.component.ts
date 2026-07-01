@@ -248,6 +248,17 @@ export class TeamSelectionComponent implements OnInit {
     }
   }
 
+  clearAllSlots(): void {
+    const updated = Array(Math.max(0, this.teamCount)).fill(null);
+    this.selectedTeams = updated;
+    this.ensureSelectedTeamsLength();
+  }
+
+  get allSlotsEmpty(): boolean {
+    this.ensureSelectedTeamsLength();
+    return this.selectedTeams.every(s => s === null);
+  }
+
   get teamSlots(): number[] {
     return Array.from({ length: this.teamCount }, (_, index) => index + 1);
   }
