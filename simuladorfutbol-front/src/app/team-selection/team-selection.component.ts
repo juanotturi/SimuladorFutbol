@@ -215,6 +215,51 @@ export class TeamSelectionComponent implements OnInit {
     this.ensureSelectedTeamsLength();
   }
 
+  private shuffle<T>(arr: T[]): T[] {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  fillRandomly(): void {
+    if (this.remainingSlots <= 0) {
+      return;
+    }
+
+    let candidates: Team[] = [];
+
+    if (!this.typeSelection) {
+      // no type selected -> all teams
+      candidates = [...this.teams];
+    } else {
+      // type selected -> use existing filter function to get clubs or selections, optionally filtered by conf/league
+      candidates = filterTeamsByTypeAndGroup(this.teams, this.typeSelection, this.filterConfLeague);
+    }
+
+    // If type selected but no conf/league selected, and the user selected a type, filterTeamsByTypeAndGroup already handles that.
+
+    // Remove already selected teams
+    const notSelected = candidates.filter(team => !this.selectedTeams.some(s => s !== null && s.id === team.id));
+    const shuffled = this.shuffle(notSelected);
+    const toUse = shuffled.slice(0, this.remainingSlots);
+
+    const updated = [...this.selectedTeams];
+    let i = 0;
+    for (let s = 0; s < updated.length && i < toUse.length; s++) {
+      if (updated[s] === null) {
+        updated[s] = toUse[i++];
+      }
+    }
+    while (i < toUse.length) {
+      updated.push(toUse[i++]);
+    }
+    this.selectedTeams = updated;
+    this.ensureSelectedTeamsLength();
+  }
+
   getRoundSlotNumbers(slots: number): number[] {
     return Array.from({ length: slots / 2 }, (_, index) => index + 1);
   }

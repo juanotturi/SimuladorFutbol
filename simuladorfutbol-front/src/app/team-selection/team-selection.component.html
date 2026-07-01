@@ -36,7 +36,7 @@
       Agregar equipo
     </button>
 
-    <button type="button" class="btn-secondary" (click)="addGroupTeams()" [disabled]="!filterConfLeague || remainingSlots === 0">
+    <button type="button" class="btn-secondary" (click)="fillRandomly()" [disabled]="remainingSlots === 0">
       Rellenar aleatoriamente
     </button>
     <button type="button" class="btn-secondary" (click)="clearAllSlots()" [disabled]="allSlotsEmpty">
