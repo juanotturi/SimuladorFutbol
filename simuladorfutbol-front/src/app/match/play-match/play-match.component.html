@@ -82,10 +82,10 @@
   </div>
 
   <div class="result-column">
-    <div class="result-block-wrapper">
+    <div class="result-block-wrapper">.
       <div class="play-grid">
         <div class="team-display team-a">
-          <img [src]="selectedTeamA?.image ? assetsBaseUrl + '/' + selectedTeamA?.image : placeholderImage"
+          <img [src]="selectedTeamA ? assetsBaseUrl + '/' + selectedTeamA.image : placeholderImage"
                alt="{{ selectedTeamA?.name || 'Equipo 1' }}" class="flag-large"
                loading="lazy" decoding="async">
           <div>{{ selectedTeamA?.name || 'Equipo 1' }}</div>
@@ -109,7 +109,7 @@
         </div>
 
         <div class="team-display team-b">
-          <img [src]="selectedTeamB?.image ? assetsBaseUrl + '/' + selectedTeamB?.image : placeholderImage"
+          <img [src]="selectedTeamB ? assetsBaseUrl + '/' + selectedTeamB.image : placeholderImage"
                alt="{{ selectedTeamB?.name || 'Equipo 2' }}" class="flag-large"
                loading="lazy" decoding="async">
           <div>{{ selectedTeamB?.name || 'Equipo 2' }}</div>
@@ -135,7 +135,7 @@
         </ng-template>
 
         <aside class="incidents desktop-only"
-               *ngIf="(incidentsLog?.length || 0) > 0 || (penaltyShootoutLog?.length || 0) > 0">
+               *ngIf="incidentsLog.length > 0 || penaltyShootoutLog.length > 0">
           <ng-container *ngTemplateOutlet="logsBlock"></ng-container>
         </aside>
       </div>
@@ -167,7 +167,7 @@
       </div>
 
       <aside class="incidents mobile-only incidents-fullwidth"
-             *ngIf="(incidentsLog?.length || 0) > 0 || (penaltyShootoutLog?.length || 0) > 0">
+             *ngIf="incidentsLog.length > 0 || penaltyShootoutLog.length > 0">
         <ng-container *ngTemplateOutlet="logsBlock"></ng-container>
       </aside>
     </div>

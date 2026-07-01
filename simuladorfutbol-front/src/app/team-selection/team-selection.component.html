@@ -50,6 +50,14 @@
     <ng-container *ngIf="tournamentType === 'Liga'">
       <div *ngFor="let slot of teamSlots" class="team-slot">
         <span class="slot-index">{{ slot }}</span>
+        <img
+          *ngIf="selectedTeams[slot - 1]?.image"
+          [src]="assetsBaseUrl + '/' + selectedTeams[slot - 1].image"
+          [alt]="selectedTeams[slot - 1]?.name"
+          class="team-logo"
+          loading="lazy"
+          decoding="async"
+        />
         <span class="slot-name">{{ getSlotTeamName(slot) }}</span>
         <button
           *ngIf="selectedTeams[slot - 1]"
@@ -82,6 +90,14 @@
         <h4>Grupo {{ groupIndex + 1 }}</h4>
         <div class="group-slots">
           <div class="group-slot" *ngFor="let slot of getGroupSlotNumbers(groupIndex)">
+            <img
+              *ngIf="groupAssignments[groupIndex][slot - 1]?.image"
+              [src]="assetsBaseUrl + '/' + groupAssignments[groupIndex][slot - 1].image"
+              [alt]="groupAssignments[groupIndex][slot - 1]?.name"
+              class="team-logo"
+              loading="lazy"
+              decoding="async"
+            />
             <span>{{ getGroupSlotTeamName(groupIndex, slot) }}</span>
             <button
               *ngIf="groupAssignments[groupIndex][slot - 1]"
