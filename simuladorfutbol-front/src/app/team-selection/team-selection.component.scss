@@ -24,6 +24,15 @@
 .selector-column {
   flex: 0 0 420px;
   max-width: 460px;
+  min-height: 0;
+}
+
+/* Make selector column scrollable when content exceeds viewport height */
+.selector-column,
+.template-column {
+  max-height: calc(100vh - 180px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .template-column {
@@ -215,5 +224,8 @@ button.btn-secondary {
     padding: 16px;
     margin: 0;
     overflow-x: hidden;
+    max-height: calc(100vh - 180px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 }
