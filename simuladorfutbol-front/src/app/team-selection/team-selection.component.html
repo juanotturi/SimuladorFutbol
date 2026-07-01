@@ -37,7 +37,7 @@
     </button>
 
     <button type="button" class="btn-secondary" (click)="addGroupTeams()" [disabled]="!filterConfLeague || remainingSlots === 0">
-      Agregar todos los equipos del grupo
+      Agregar todos los equipos de la confederación / liga
     </button>
   </div>
 
@@ -48,22 +48,25 @@
     </div>
 
     <ng-container *ngIf="tournamentType === 'Liga'">
-      <div *ngFor="let slot of teamSlots" class="team-slot">
+      <div *ngFor="let slot of teamSlots" class="team-slot"
+           [class.swap-active]="isSwapSelected(slot - 1)"
+           (click)="selectSwapSlot(slot - 1)">
         <span class="slot-index">{{ slot }}</span>
-        <img
-          *ngIf="selectedTeams[slot - 1] && selectedTeams[slot - 1].image"
-          [src]="assetsBaseUrl + '/' + selectedTeams[slot - 1].image"
-          [alt]="selectedTeams[slot - 1] ? selectedTeams[slot - 1].name : ''"
-          class="team-logo"
-          loading="lazy"
-          decoding="async"
-        />
+        <ng-container *ngIf="selectedTeams[slot - 1] as slotTeam">
+          <img *ngIf="slotTeam.image"
+            [src]="assetsBaseUrl + '/' + slotTeam.image"
+            [alt]="slotTeam.name"
+            class="team-logo"
+            loading="lazy"
+            decoding="async"
+          />
+        </ng-container>
         <span class="slot-name">{{ getSlotTeamName(slot) }}</span>
         <button
           *ngIf="selectedTeams[slot - 1]"
           type="button"
           class="remove-button slot-remove"
-          (click)="removeSelectedTeam(selectedTeams[slot - 1])"
+          (click)="removeSelectedTeam(slot - 1); $event.stopPropagation()"
           aria-label="Eliminar equipo"
         >
           ×
@@ -89,21 +92,25 @@
       <div *ngFor="let group of groupAssignments; let groupIndex = index" class="group-block">
         <h4>Grupo {{ groupIndex + 1 }}</h4>
         <div class="group-slots">
-          <div class="group-slot" *ngFor="let slot of getGroupSlotNumbers(groupIndex)">
-            <img
-              *ngIf="groupAssignments[groupIndex][slot - 1] && groupAssignments[groupIndex][slot - 1].image"
-              [src]="assetsBaseUrl + '/' + groupAssignments[groupIndex][slot - 1].image"
-              [alt]="groupAssignments[groupIndex][slot - 1] ? groupAssignments[groupIndex][slot - 1].name : ''"
-              class="team-logo"
-              loading="lazy"
-              decoding="async"
-            />
+          <div class="group-slot"
+               *ngFor="let slot of getGroupSlotNumbers(groupIndex)"
+               [class.swap-active]="isSwapSelected(getGroupSlotGlobalIndex(groupIndex, slot))"
+               (click)="selectSwapSlot(getGroupSlotGlobalIndex(groupIndex, slot))">
+            <ng-container *ngIf="groupAssignments[groupIndex][slot - 1] as groupTeam">
+              <img *ngIf="groupTeam && groupTeam.image"
+                [src]="assetsBaseUrl + '/' + groupTeam.image"
+                [alt]="groupTeam.name"
+                class="team-logo"
+                loading="lazy"
+                decoding="async"
+              />
+            </ng-container>
             <span>{{ getGroupSlotTeamName(groupIndex, slot) }}</span>
             <button
               *ngIf="groupAssignments[groupIndex][slot - 1]"
               type="button"
               class="remove-button slot-remove"
-              (click)="removeSelectedTeam(groupAssignments[groupIndex][slot - 1])"
+              (click)="removeSelectedTeam(getGroupSlotGlobalIndex(groupIndex, slot)); $event.stopPropagation()"
               aria-label="Eliminar equipo"
             >
               ×

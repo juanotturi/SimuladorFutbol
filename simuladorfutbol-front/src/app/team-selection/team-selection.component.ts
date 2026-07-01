@@ -27,7 +27,9 @@ export class TeamSelectionComponent implements OnInit {
   typeSelection: 'SELECCION' | 'CLUB' | null = null;
   filterConfLeague: string | null = null;
   selectedTeam?: Team;
-  selectedTeams: Team[] = [];
+  // selectedTeams now holds fixed slots: Team | null. Empty slots are null.
+  selectedTeams: (Team | null)[] = [];
+  swapSelectedIndex: number | null = null;
   assetsBaseUrl = environment.assetsBaseUrl;
 
   constructor(
@@ -46,6 +48,7 @@ export class TeamSelectionComponent implements OnInit {
       const teamCountParam = Number(params.get('teamCount'));
       if (!isNaN(teamCountParam) && teamCountParam > 0) {
         this.teamCount = teamCountParam;
+        this.ensureSelectedTeamsLength();
       }
 
       const groupCountParam = Number(params.get('groupCount'));
@@ -61,6 +64,17 @@ export class TeamSelectionComponent implements OnInit {
     });
 
     this.loadTeams();
+    this.ensureSelectedTeamsLength();
+  }
+
+  ensureSelectedTeamsLength() {
+    const desired = Math.max(0, this.teamCount);
+    const current = this.selectedTeams.length;
+    if (current < desired) {
+      this.selectedTeams = [...this.selectedTeams, ...Array(desired - current).fill(null)];
+    } else if (current > desired) {
+      this.selectedTeams = this.selectedTeams.slice(0, desired);
+    }
   }
 
   loadTeams() {
@@ -85,7 +99,8 @@ export class TeamSelectionComponent implements OnInit {
   }
 
   get remainingSlots(): number {
-    return Math.max(0, this.teamCount - this.selectedTeams.length);
+    this.ensureSelectedTeamsLength();
+    return this.selectedTeams.filter(s => s === null).length;
   }
 
   get bracketSize(): number {
@@ -142,9 +157,9 @@ export class TeamSelectionComponent implements OnInit {
     return Array.from({ length: this.groupCount }, (_, index) => index < remainder ? base + 1 : base);
   }
 
-  get groupAssignments(): Team[][] {
+  get groupAssignments(): (Team | null)[][] {
     const sizes = this.groupSizes;
-    const assignments: Team[][] = [];
+    const assignments: (Team | null)[][] = [];
     let teamIndex = 0;
 
     for (const size of sizes) {
@@ -161,21 +176,43 @@ export class TeamSelectionComponent implements OnInit {
       return;
     }
 
-    if (this.selectedTeams.some(team => team.id === this.selectedTeam!.id)) {
+    if (this.selectedTeams.some(team => team && team.id === this.selectedTeam!.id)) {
       return;
     }
 
-    this.selectedTeams = [...this.selectedTeams, this.selectedTeam];
+    // place in first empty slot
+    const idx = this.selectedTeams.findIndex(s => s === null);
+    if (idx >= 0) {
+      const updated = [...this.selectedTeams];
+      updated[idx] = this.selectedTeam!;
+      this.selectedTeams = updated;
+    } else {
+      // fallback: push at end and ensure length
+      this.selectedTeams = [...this.selectedTeams, this.selectedTeam!];
+      this.ensureSelectedTeamsLength();
+    }
   }
 
   addGroupTeams() {
     if (!this.filterConfLeague || !this.typeSelection || this.remainingSlots <= 0) {
       return;
     }
-
-    const toAdd = this.filteredTeams.filter(team => !this.selectedTeams.some(selected => selected.id === team.id));
+    const toAdd = this.filteredTeams.filter(team => !this.selectedTeams.some(selected => selected && selected.id === team.id));
     const candidates = toAdd.slice(0, this.remainingSlots);
-    this.selectedTeams = [...this.selectedTeams, ...candidates];
+    // fill empty slots in order
+    const updated = [...this.selectedTeams];
+    let i = 0;
+    for (let s = 0; s < updated.length && i < candidates.length; s++) {
+      if (updated[s] === null) {
+        updated[s] = candidates[i++];
+      }
+    }
+    // if still candidates, append (and resize)
+    while (i < candidates.length) {
+      updated.push(candidates[i++]);
+    }
+    this.selectedTeams = updated;
+    this.ensureSelectedTeamsLength();
   }
 
   getRoundSlotNumbers(slots: number): number[] {
@@ -188,11 +225,27 @@ export class TeamSelectionComponent implements OnInit {
   }
 
   isTeamSelected(team: Team): boolean {
-    return this.selectedTeams.some(selected => selected.id === team.id);
+    return this.selectedTeams.some(selected => selected !== null && selected.id === team.id);
   }
+  removeSelectedTeam(teamOrIndex: Team | number) {
+    // Accept either a Team object or a numeric index
+    if (typeof teamOrIndex === 'number') {
+      const idx = teamOrIndex;
+      if (idx >= 0 && idx < this.selectedTeams.length) {
+        const updated = [...this.selectedTeams];
+        updated[idx] = null;
+        this.selectedTeams = updated;
+      }
+      return;
+    }
 
-  removeSelectedTeam(team: Team) {
-    this.selectedTeams = this.selectedTeams.filter(selected => selected.id !== team.id);
+    const team = teamOrIndex as Team;
+    const idx = this.selectedTeams.findIndex(s => s !== null && s.id === team.id);
+    if (idx >= 0) {
+      const updated = [...this.selectedTeams];
+      updated[idx] = null;
+      this.selectedTeams = updated;
+    }
   }
 
   get teamSlots(): number[] {
@@ -201,13 +254,43 @@ export class TeamSelectionComponent implements OnInit {
 
   getSlotTeamName(slot: number): string {
     const team = this.selectedTeams[slot - 1];
-    return team ? team.name : 'Vacío';
+    return team ? `${team.name} (${team.score})` : 'Vacío';
   }
 
   getGroupSlotTeamName(groupIndex: number, slot: number): string {
     const group = this.groupAssignments[groupIndex] || [];
     const team = group[slot - 1];
-    return team ? team.name : 'Vacío';
+    return team ? `${team.name} (${team.score})` : 'Vacío';
+  }
+
+  getGroupSlotGlobalIndex(groupIndex: number, slot: number): number {
+    const previousGroups = this.groupSizes.slice(0, groupIndex).reduce((sum, s) => sum + s, 0);
+    return previousGroups + slot - 1;
+  }
+
+  isSwapSelected(index: number): boolean {
+    return this.swapSelectedIndex === index;
+  }
+
+  selectSwapSlot(index: number): void {
+    if (this.selectedTeams[index] === undefined) {
+      return;
+    }
+
+    if (this.swapSelectedIndex === null) {
+      this.swapSelectedIndex = index;
+      return;
+    }
+
+    if (this.swapSelectedIndex === index) {
+      this.swapSelectedIndex = null;
+      return;
+    }
+
+    const updated = [...this.selectedTeams];
+    [updated[this.swapSelectedIndex], updated[index]] = [updated[index], updated[this.swapSelectedIndex]];
+    this.selectedTeams = updated;
+    this.swapSelectedIndex = null;
   }
 
   goBack() {
