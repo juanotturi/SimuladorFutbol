@@ -27,7 +27,6 @@
   min-height: 0;
 }
 
-/* Make selector column scrollable when content exceeds viewport height */
 .selector-column,
 .template-column {
   max-height: calc(100vh - 180px);

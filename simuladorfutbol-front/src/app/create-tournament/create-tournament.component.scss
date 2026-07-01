@@ -13,12 +13,9 @@
   flex: 1 1 280px;
   max-width: 360px;
   min-width: 0;
-}
-
-.selectors-content {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  max-height: calc(100vh - 180px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .section-header h2,
