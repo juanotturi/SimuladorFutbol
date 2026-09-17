@@ -99,7 +99,54 @@
   border-radius: 4px;
 }
 
-.selectors-column>button {
+.localia-inline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 14px;
+  color: #1f2937;
+  font-family: inherit;
+  line-height: 1.4;
+  margin-top: 2px;
+  flex-wrap: nowrap;
+}
+
+.localia-label {
+  white-space: nowrap;
+}
+
+.localia-radio-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: nowrap;
+}
+
+.localia-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.localia-option input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: #4CAF50;
+}
+
+.result-buttons-inline {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.result-buttons-inline button {
   padding: 8px 16px;
   background-color: #4CAF50;
   border: none;
@@ -110,11 +157,11 @@
   transition: background-color 0.2s ease;
 }
 
-.selectors-column>button:hover:enabled {
+.result-buttons-inline button:hover:enabled {
   background-color: #45a049;
 }
 
-.selectors-column>button:disabled {
+.result-buttons-inline button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
 }
@@ -257,6 +304,8 @@
   display: flex;
   gap: 8px;
   justify-content: flex-start;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 .result-buttons-inline button {
@@ -560,6 +609,21 @@ button:hover:enabled {
     align-self: stretch;
     max-width: none;
     margin: 0 auto 12px;
+  }
+
+  .penalty-section {
+    justify-content: center;
+  }
+
+  .penalty-box {
+    text-align: center;
+    align-items: center;
+  }
+
+  .penalty-box button {
+    align-self: center;
+    width: fit-content;
+    min-width: 140px;
   }
 }
 

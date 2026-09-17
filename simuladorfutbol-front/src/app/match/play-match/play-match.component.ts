@@ -78,6 +78,7 @@ export class PlayMatchComponent implements OnInit {
     { label: '10 minutos', value: 600_000 }
   ];
   selectedDuration = 0;
+  hasLocalia = true;
 
   matchClock = 0;
   matchInterval: any;
@@ -176,6 +177,16 @@ export class PlayMatchComponent implements OnInit {
     return filterTeamsByTypeAndGroup(this.teams, this.typeB, this.filterBConfLeague);
   }
 
+  getAdjustedTeamScoreForLocalia(score: number, side: 'A' | 'B'): number {
+    if (!this.hasLocalia) return score;
+    return side === 'A' ? score + 2 : score - 2;
+  }
+
+  private logMatchScoreSnapshot(baseScoreA: number, baseScoreB: number, adjustedScoreA: number, adjustedScoreB: number): void {
+    console.info(`equipoA={base:${baseScoreA}, final:${adjustedScoreA}}; equipoB={base:${baseScoreB}, final:${adjustedScoreB}}; localiaActiva=${this.hasLocalia}`
+    );
+  }
+
   playMatch() {
     if (!this.selectedTeamA || !this.selectedTeamB) {
       alert('Selecciona ambos equipos');
@@ -223,8 +234,12 @@ export class PlayMatchComponent implements OnInit {
         const penaltyA = this.calculateRedCardScoreReduction(redCardsA);
         const penaltyB = this.calculateRedCardScoreReduction(redCardsB);
 
-        const adjustedScoreA = Math.max(this.selectedTeamA!.score - penaltyA, 0);
-        const adjustedScoreB = Math.max(this.selectedTeamB!.score - penaltyB, 0);
+        const baseScoreA = this.selectedTeamA!.score - penaltyA;
+        const baseScoreB = this.selectedTeamB!.score - penaltyB;
+        const adjustedScoreA = this.getAdjustedTeamScoreForLocalia(baseScoreA, 'A');
+        const adjustedScoreB = this.getAdjustedTeamScoreForLocalia(baseScoreB, 'B');
+
+        this.logMatchScoreSnapshot(baseScoreA, baseScoreB, adjustedScoreA, adjustedScoreB);
 
         this.redCardsA = redCardsA;
         this.redCardsB = redCardsB;
@@ -241,8 +256,12 @@ export class PlayMatchComponent implements OnInit {
         const penaltyA = this.calculateRedCardScoreReduction(redCardsA);
         const penaltyB = this.calculateRedCardScoreReduction(redCardsB);
 
-        const adjustedScoreA = Math.max(this.selectedTeamA!.score - penaltyA, 0);
-        const adjustedScoreB = Math.max(this.selectedTeamB!.score - penaltyB, 0);
+        const baseScoreA = this.selectedTeamA!.score - penaltyA;
+        const baseScoreB = this.selectedTeamB!.score - penaltyB;
+        const adjustedScoreA = this.getAdjustedTeamScoreForLocalia(baseScoreA, 'A');
+        const adjustedScoreB = this.getAdjustedTeamScoreForLocalia(baseScoreB, 'B');
+
+        this.logMatchScoreSnapshot(baseScoreA, baseScoreB, adjustedScoreA, adjustedScoreB);
 
         this.redCardsA = redCardsA;
         this.redCardsB = redCardsB;
@@ -262,6 +281,10 @@ export class PlayMatchComponent implements OnInit {
     this.apiService.getMatchResult(adjustedScoreA, adjustedScoreB).subscribe({
       next: (result) => {
         this.matchResult = result;
+        console.log('Resultado final: ', {
+          golesEquipoA: result.goalsTeamA,
+          golesEquipoB: result.goalsTeamB
+        });
         this.generateMissedPenalties();
         this.generateGoalTimeline();
         this.startMatchClock();

@@ -77,7 +77,19 @@
           <option *ngFor="let d of durations" [value]="d.value">{{ d.label }}</option>
         </select>
       </label>
-      <button (click)="playMatch()" [disabled]="isInteractionBlocked()">Jugar Partido</button>
+
+      <div class="localia-inline">
+        <div class="localia-radio-group">
+          <label class="localia-option">
+            <input type="radio" name="localiaOption" [value]="true" [(ngModel)]="hasLocalia" [disabled]="isInteractionBlocked()" />
+            <span>Localía</span>
+          </label>
+          <label class="localia-option">
+            <input type="radio" name="localiaOption" [value]="false" [(ngModel)]="hasLocalia" [disabled]="isInteractionBlocked()" />
+            <span>Cancha neutral</span>
+          </label>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -143,6 +155,9 @@
       <hr class="divider" />
 
       <div class="result-buttons-inline match-action-buttons">
+        <button (click)="playMatch()" [disabled]="isInteractionBlocked() || !selectedTeamA || !selectedTeamB">
+          Jugar Partido
+        </button>
         <button *ngIf="isMatchPlayed || penaltyWinner" (click)="resetMatch()" [disabled]="penaltyShootoutActive">
           Reiniciar
         </button>
