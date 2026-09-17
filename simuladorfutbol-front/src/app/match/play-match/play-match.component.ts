@@ -78,7 +78,7 @@ export class PlayMatchComponent implements OnInit {
     { label: '10 minutos', value: 600_000 }
   ];
   selectedDuration = 0;
-  hasLocalia = true;
+  hasLocalia = false;
 
   matchClock = 0;
   matchInterval: any;

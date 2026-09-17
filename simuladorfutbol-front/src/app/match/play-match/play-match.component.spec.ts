@@ -24,11 +24,12 @@ describe('PlayMatchComponent', () => {
   });
 
   it('should expose the localia radio state', () => {
-    expect(component.hasLocalia).toBeTrue();
+    expect(component.hasLocalia).toBeFalse();
     expect(typeof component.hasLocalia).toBe('boolean');
   });
 
   it('should apply localia adjustment to team scores', () => {
+    component.hasLocalia = true;
     expect(component.getAdjustedTeamScoreForLocalia(70, 'A')).toBe(72);
     expect(component.getAdjustedTeamScoreForLocalia(70, 'B')).toBe(68);
 

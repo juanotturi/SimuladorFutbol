@@ -81,12 +81,12 @@
       <div class="localia-inline">
         <div class="localia-radio-group">
           <label class="localia-option">
-            <input type="radio" name="localiaOption" [value]="true" [(ngModel)]="hasLocalia" [disabled]="isInteractionBlocked()" />
-            <span>Localía</span>
-          </label>
-          <label class="localia-option">
             <input type="radio" name="localiaOption" [value]="false" [(ngModel)]="hasLocalia" [disabled]="isInteractionBlocked()" />
             <span>Cancha neutral</span>
+          </label>
+          <label class="localia-option">
+            <input type="radio" name="localiaOption" [value]="true" [(ngModel)]="hasLocalia" [disabled]="isInteractionBlocked()" />
+            <span>Localía</span>
           </label>
         </div>
       </div>
