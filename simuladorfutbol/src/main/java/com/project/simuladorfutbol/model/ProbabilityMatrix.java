@@ -18,8 +18,10 @@ public class ProbabilityMatrix {
      * @return índice del vector (-17 a +17)
      */
     public int getVectorValue(int scoreA, int scoreB) {
-        if (Math.abs(scoreA - scoreB) == 1) {
-            return 0;
+        if (scoreA - scoreB == 1) {
+            return 1;
+        } else if (scoreA - scoreB == -1) {
+            return -1;
         }
 
         int bucketA = bucketize(scoreA);

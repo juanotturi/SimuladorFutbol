@@ -24,9 +24,6 @@ public class MatchService {
 
     public ExactResultDTO playMatch(int scoreA, int scoreB) {
         int vectorIndex = getVectorIndex(scoreA, scoreB);
-        if (Math.abs(scoreA - scoreB) == 1) {
-            vectorIndex = 0;
-        }
         int rand = random.nextInt(100) + 1;
         int resultCode = exactResultMatrix.getResultCode(vectorIndex, rand);
         return exactResultCodeMapper.getResult(resultCode);
