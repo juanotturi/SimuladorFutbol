@@ -445,12 +445,31 @@ export class PlayMatchComponent implements OnInit {
 
   repeatMatch(): void {
     if (this.lastTeamA && this.lastTeamB && this.lastTypeA && this.lastTypeB) {
-      this.typeA = this.lastTypeA;
-      this.typeB = this.lastTypeB;
-      this.filterAConfLeague = this.lastConfA;
-      this.filterBConfLeague = this.lastConfB;
-      this.selectedTeamA = this.lastTeamA;
-      this.selectedTeamB = this.lastTeamB;
+      const isRevanchaWithLocalia = this.hasLocalia;
+
+      if (isRevanchaWithLocalia) {
+        this.typeA = this.lastTypeB;
+        this.typeB = this.lastTypeA;
+        this.filterAConfLeague = this.lastConfB;
+        this.filterBConfLeague = this.lastConfA;
+        this.selectedTeamA = this.lastTeamB;
+        this.selectedTeamB = this.lastTeamA;
+      } else {
+        this.typeA = this.lastTypeA;
+        this.typeB = this.lastTypeB;
+        this.filterAConfLeague = this.lastConfA;
+        this.filterBConfLeague = this.lastConfB;
+        this.selectedTeamA = this.lastTeamA;
+        this.selectedTeamB = this.lastTeamB;
+      }
+
+      this.lastTeamA = this.selectedTeamA ?? this.lastTeamA;
+      this.lastTeamB = this.selectedTeamB ?? this.lastTeamB;
+      this.lastTypeA = this.typeA;
+      this.lastTypeB = this.typeB;
+      this.lastConfA = this.filterAConfLeague;
+      this.lastConfB = this.filterBConfLeague;
+
       this.liveGoalsA = 0;
       this.liveGoalsB = 0;
       this.matchResult = undefined;

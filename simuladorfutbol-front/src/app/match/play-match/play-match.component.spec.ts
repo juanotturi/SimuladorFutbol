@@ -37,4 +37,30 @@ describe('PlayMatchComponent', () => {
     expect(component.getAdjustedTeamScoreForLocalia(70, 'A')).toBe(70);
     expect(component.getAdjustedTeamScoreForLocalia(70, 'B')).toBe(70);
   });
+
+  it('should swap team sides on repeat match when localia is active', () => {
+    const teamA = { id: 1, name: 'Equipo A', score: 70 } as any;
+    const teamB = { id: 2, name: 'Equipo B', score: 68 } as any;
+
+    component.lastTeamA = teamA;
+    component.lastTeamB = teamB;
+    component.lastTypeA = 'CLUB';
+    component.lastTypeB = 'SELECCION';
+    component.lastConfA = 'Liga 1';
+    component.lastConfB = 'Liga 2';
+    component.typeA = 'CLUB';
+    component.typeB = 'SELECCION';
+    component.filterAConfLeague = 'Liga 1';
+    component.filterBConfLeague = 'Liga 2';
+    component.selectedTeamA = teamA;
+    component.selectedTeamB = teamB;
+    component.hasLocalia = true;
+
+    component.repeatMatch();
+
+    expect(component.selectedTeamA).toBe(teamB);
+    expect(component.selectedTeamB).toBe(teamA);
+    expect(component.typeA).toBe('SELECCION');
+    expect(component.typeB).toBe('CLUB');
+  });
 });
