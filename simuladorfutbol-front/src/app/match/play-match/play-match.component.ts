@@ -686,7 +686,7 @@ export class PlayMatchComponent implements OnInit {
 
   private generateRedCardMinutes(): number[] {
     const chances = [0, 1, 2, 3];
-    const weights = [0.88, 0.1, 0.019, 0.001];
+    const weights = [0.89, 0.1, 0.009, 0.001];
     const getCount = () => {
       const r = Math.random();
       let acc = 0;
